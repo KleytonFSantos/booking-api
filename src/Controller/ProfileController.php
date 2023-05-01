@@ -58,6 +58,7 @@ class ProfileController extends AbstractController
 
             $input['avatar'] = $avatarUploaded;
             $userProfileService->updateOrCreate($input, $user, $avatarUploaded);
+
             return new JsonResponse('Profile updated successfully', 200);
         } catch (ValidationFailedException $e) {
             $errors = $this->userProfileValidation->formattedJsonValidationErrors($e);

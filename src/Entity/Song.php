@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\SongRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SongRepository::class)]
@@ -13,21 +15,33 @@ class Song
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[SerializedName('id')]
+    #[Groups('song')]
     private ?int $id = null;
 
     #[Assert\NotBlank()]
     #[Assert\Length(min: 5, max: 255)]
     #[ORM\Column(length: 255)]
+    #[SerializedName('title')]
+    #[Groups('song')]
     private ?string $title = null;
 
     #[Assert\NotBlank()]
     #[Assert\Length(min: 5, max: 255)]
     #[ORM\Column(length: 255)]
+    #[SerializedName('artist')]
+    #[Groups('song')]
     private ?string $artist = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[SerializedName('cover')]
+    #[Groups('song')]
     private ?string $cover = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    #[SerializedName('duration')]
+    #[Groups('song')]
+    private ?string $duration = null;
 
     #[ORM\Column(length: 255)]
     private ?string $song = null;
@@ -99,5 +113,21 @@ class Song
         $this->user = $user;
 
         return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getDuration(): ?string
+    {
+        return $this->duration;
+    }
+
+    /**
+     * @param string|null $duration
+     */
+    public function setDuration(?string $duration): void
+    {
+        $this->duration = $duration;
     }
 }

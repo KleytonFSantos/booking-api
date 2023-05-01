@@ -7,6 +7,7 @@ use App\Service\UploadCoverFileService;
 use App\Service\UploadSongFileService;
 use App\Validation\AddSongValidation;
 use Exception;
+use getID3;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -50,6 +51,7 @@ class AddSongController extends AbstractController
                 $uploadSong = $this->uploadSongFileService->uploadSong($songFile);
                 $songUploaded = self::FILE_PATH_SONG . $uploadSong;
                 $input['song'] = $songUploaded;
+                $input['duration'] = $this->getSongDuration($songUploaded);
             }
 
             $this->createSongService->create($input, $user);
@@ -64,5 +66,15 @@ class AddSongController extends AbstractController
         } catch (Exception $e) {
             return new JsonResponse($e, 500);
         }
+    }
+
+    public function getSongDuration($songFile): string
+    {
+        $getID3 = new getID3();
+        $fileInfo = $getID3->analyze($songFile);
+        $durationInSeconds = $fileInfo['playtime_seconds'];
+        $minutes = floor($durationInSeconds / 60);
+        $durationInSeconds %= 60;
+        return sprintf('%d:%02d', $minutes, $durationInSeconds);
     }
 }

@@ -29,6 +29,7 @@ class CreateSongService
             $newSong->setArtist($song['artist']);
             $newSong->setCover($song['cover']);
             $newSong->setSong($song['song']);
+            $newSong->setDuration($song['duration']);
             $newSong->setUser($user);
 
             $violations = $this->addSongValidation->validateUserProfile($newSong);
