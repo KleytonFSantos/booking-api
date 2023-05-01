@@ -27,13 +27,14 @@ class CreateSongService
             $newSong = new Song();
             $newSong->setTitle($song['title']);
             $newSong->setArtist($song['artist']);
-            $newSong->setCover($song['cover']);
+            $newSong->setCover($song['cover'] ?? '');
             $newSong->setSong($song['song']);
-            $newSong->setDuration($song['duration']);
+            $newSong->setDuration($song['duration'] ?? '');
             $newSong->setUser($user);
 
             $violations = $this->addSongValidation->validateUserProfile($newSong);
-            if ($violations) {
+
+            if ($violations || $newSong->getSong() === 'undefined') {
                 $this->addSongValidation->getValidationViolations($violations);
             }
             $this->songRepository->save($newSong, true);

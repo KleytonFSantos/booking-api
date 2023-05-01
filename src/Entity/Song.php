@@ -44,9 +44,10 @@ class Song
     private ?string $duration = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $song = null;
 
-    #[ORM\OneToOne(targetEntity: User::class)]
+    #[ORM\ManyToOne(targetEntity:User::class, inversedBy:"songs")]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
     private User|UserInterface|null $user = null;
 

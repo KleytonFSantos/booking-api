@@ -21,7 +21,10 @@ class UploadCoverFileService
     {
         $originalFilename = pathinfo($coverFile->getClientOriginalName(), PATHINFO_FILENAME);
         $newFilename = $originalFilename.'-'.uniqid().'.'.$coverFile->guessExtension();
-
+        $validExtensions = ['png', 'jpg', 'jpeg'];
+        if(!in_array($coverFile->guessExtension(), $validExtensions)) {
+            throw new \Exception('Invalid image file detected', 500);
+        }
         try {
             $coverFile->move(
                 $this->params->get('upload_cover_destination'),

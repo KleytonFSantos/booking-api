@@ -58,12 +58,12 @@ class AddSongController extends AbstractController
 
             return new JsonResponse([
                 'message' => 'Song created successfully!',
-                200
-            ]);
+            ],200);
         } catch (ValidationFailedException $e) {
             $errors = $this->addSongValidation->formattedJsonValidationErrors($e);
             return new JsonResponse(['errors' => $errors], 422);
         } catch (Exception $e) {
+            dump($e->getMessage(), $e->getTraceAsString());
             return new JsonResponse($e, 500);
         }
     }
