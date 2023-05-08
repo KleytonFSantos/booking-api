@@ -12,7 +12,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DeleteSongController extends AbstractController
 {
-
     #[Route('/song/{song}', name: 'app_delete_song', methods: 'DELETE')]
     public function __invoke(
         int $song,

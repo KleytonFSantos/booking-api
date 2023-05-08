@@ -45,6 +45,8 @@ class Song
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank()]
+    #[SerializedName('song')]
+    #[Groups('song')]
     private ?string $song = null;
 
     #[ORM\ManyToOne(targetEntity:User::class, inversedBy:"songs")]
