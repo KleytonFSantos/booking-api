@@ -4,6 +4,8 @@ namespace App\Service;
 
 use App\Enum\ValidAudioFileExtensions;
 use Exception;
+use Psr\Log\LoggerInterface;
+use Psr\Log\LogLevel;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -14,6 +16,7 @@ class UploadSongFileService
 
     public function __construct(
         private readonly ParameterBagInterface  $params,
+        private readonly LoggerInterface $logger
     )
     {
     }
@@ -35,14 +38,15 @@ class UploadSongFileService
         }
 
          try {
-            $songFile->move(
+             $songFile->move(
                 $this->params->get('upload_song_destination'),
                 $newFilename
             );
 
             return $newFilename;
-        } catch (FileException) {
-            throw new Exception('Error uploading avatar file.');
+        } catch (FileException $e) {
+             $this->logger->error($e->getTraceAsString());
+             throw new Exception('Error uploading avatar file.');
         }
     }
 }
