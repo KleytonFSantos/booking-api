@@ -33,11 +33,11 @@ class ProfileController extends AbstractController
         $userProfile = $this->userProfileRepository->findOneBy(['user' => $user]);
 
         return new JsonResponse([
-            'description' => $userProfile->getDescription(),
-            'avatar' => $userProfile->getAvatar(),
-            'city' => $userProfile->getCity(),
-            'state' => $userProfile->getState(),
-            'user' => $userProfile->getUser()
+            'description' => $userProfile?->getDescription(),
+            'avatar' => $userProfile?->getAvatar(),
+            'city' => $userProfile?->getCity(),
+            'state' => $userProfile?->getState(),
+            'user' => $user
         ], 200);
     }
     #[Route('/edit-profile', name: 'edit-profile', methods: 'POST')]
