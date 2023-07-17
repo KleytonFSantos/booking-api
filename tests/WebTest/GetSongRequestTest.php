@@ -18,7 +18,6 @@ class GetSongRequestTest extends WebTestCase
         $client = static::createClient();
 
         $userRepository = static::getContainer()->get(UserRepository::class);
-        $songRepository = static::getContainer()->get(SongRepository::class);
 
         $userTest = $userRepository->findOneBy(['email' => 'test@example.com']);
 
@@ -33,10 +32,9 @@ class GetSongRequestTest extends WebTestCase
             $userTest = $newUser;
         }
 
-
         $client->loginUser($userTest);
 
-        $client->request('GET', '40' . '/songs');
+        $client->request('GET', $userTest->getId() . '/songs');
 
         $this->assertResponseIsSuccessful();
     }
