@@ -20,8 +20,7 @@ class UserProfileService
         protected EntityManagerInterface        $entityManager,
         private readonly UserProfileValidation  $userProfileValidation
 
-    )
-    {
+    ){
     }
 
     /**

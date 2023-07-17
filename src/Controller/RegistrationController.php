@@ -19,7 +19,14 @@ class RegistrationController extends AbstractController
         private readonly UserRepository              $userRepository,
         private readonly SerializerInterface         $serializer,
         private readonly UserRegistrationService     $userRegistrationService
-    ) {
+    )
+    {
+    }
+    #[Route('/teste', name: 'app_teste', methods: 'GET')]
+
+    public function teste(): Response
+    {
+        return new Response('teste', 200);
     }
     #[Route('/register', name: 'app_registration', methods: 'POST')]
     public function register(Request $request): JsonResponse {

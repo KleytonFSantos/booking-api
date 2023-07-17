@@ -63,11 +63,9 @@ class Song
         return $this->title;
     }
 
-    public function setTitle(string $title): self
+    public function setTitle(string $title): void
     {
         $this->title = $title;
-
-        return $this;
     }
 
     public function getArtist(): ?string
@@ -75,11 +73,9 @@ class Song
         return $this->artist;
     }
 
-    public function setArtist(string $artist): self
+    public function setArtist(string $artist): void
     {
         $this->artist = $artist;
-
-        return $this;
     }
 
     public function getCover(): ?string
@@ -87,11 +83,9 @@ class Song
         return $this->cover;
     }
 
-    public function setCover(?string $cover): self
+    public function setCover(?string $cover): void
     {
         $this->cover = $cover;
-
-        return $this;
     }
 
     public function getSong(): ?string
@@ -99,11 +93,9 @@ class Song
         return $this->song;
     }
 
-    public function setSong(string $song): self
+    public function setSong(?string $song): void
     {
         $this->song = $song;
-
-        return $this;
     }
 
     public function getUser(): User|UserInterface|null
@@ -111,11 +103,9 @@ class Song
         return $this->user;
     }
 
-    public function setUser(User|UserInterface|null $user): self
+    public function setUser(User|UserInterface|null $user): void
     {
         $this->user = $user;
-
-        return $this;
     }
 
     /**

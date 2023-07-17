@@ -17,13 +17,9 @@ use Symfony\Component\Validator\Exception\ValidationFailedException;
 
 class AddSongController extends AbstractController
 {
-    const FILE_PATH_COVER = 'uploads/cover/';
-    const FILE_PATH_SONG = 'uploads/song/';
 
     public function __construct(
         private readonly CreateSongService $createSongService,
-        private readonly UploadCoverFileService $uploadCoverFileService,
-        private readonly UploadSongFileService $uploadSongFileService,
         private readonly AddSongValidation $addSongValidation
     )
     {
@@ -36,29 +32,20 @@ class AddSongController extends AbstractController
     public function index(Request $request, UserInterface $user): JsonResponse
     {
         try {
-            $coverFile = $request->files->get('coverImage');
+            $coverFile = $request->files->get('cover');
             $songFile = $request->files->get('song');
-
             $input = $request->request->all();
-            
-            if ($coverFile) {
-                $uploadCover = $this->uploadCoverFileService->uploadCover($coverFile);
-                $coverUploaded = self::FILE_PATH_COVER . $uploadCover;
-                $input['cover'] = $coverUploaded;
-            }
 
-            if ($songFile) {
-                $uploadSong = $this->uploadSongFileService->uploadSong($songFile);
-                $songUploaded = self::FILE_PATH_SONG . $uploadSong;
-                $input['song'] = $songUploaded;
-                $input['duration'] = $this->getSongDuration($songUploaded);
-            }
+            $song = $this->createSongService->createSongArray($input, $coverFile, $songFile);
 
-            $this->createSongService->create($input, $user);
+            $this->createSongService->create($song, $user);
 
-            return new JsonResponse([
-                'message' => 'Song created successfully!',
-            ],200);
+            return new JsonResponse(
+                [
+                    'message' => 'Song created successfully!',
+                ],
+                200
+            );
         } catch (ValidationFailedException $e) {
             $errors = $this->addSongValidation->formattedJsonValidationErrors($e);
             return new JsonResponse(['errors' => $errors], 422);
@@ -66,15 +53,5 @@ class AddSongController extends AbstractController
             dump($e->getMessage(), $e->getTraceAsString());
             return new JsonResponse($e, 500);
         }
-    }
-
-    public function getSongDuration($songFile): string
-    {
-        $getID3 = new getID3();
-        $fileInfo = $getID3->analyze($songFile);
-        $durationInSeconds = $fileInfo['playtime_seconds'];
-        $minutes = floor($durationInSeconds / 60);
-        $durationInSeconds %= 60;
-        return sprintf('%d:%02d', $minutes, $durationInSeconds);
     }
 }
