@@ -35,7 +35,6 @@ security:
     access_control:
         - { path: ^/login, roles: PUBLIC_ACCESS }
         - { path: ^/teste, roles: PUBLIC_ACCESS }
-        - { path: ^/send-notification, roles: PUBLIC_ACCESS }
         - { path: ^/register, roles: PUBLIC_ACCESS }
         - { path: ^/,       roles: IS_AUTHENTICATED_FULLY }        
         # - { path: ^/admin, roles: ROLE_ADMIN }

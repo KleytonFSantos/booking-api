@@ -13,7 +13,6 @@ class SendNotificationController extends AbstractController
     #[Route('/send-notification', name: 'app_send_notification', methods: 'GET')]
     public function __invoke(MessageBusInterface $bus): Response
     {
-
         $bus->dispatch(new SendNotificationMessage('Hello test'));
 
         return new Response('', Response::HTTP_OK);

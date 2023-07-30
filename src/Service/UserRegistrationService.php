@@ -11,14 +11,14 @@ class UserRegistrationService
 {
     public function __construct(
         private readonly UserPasswordHasherInterface $passwordHasher,
-        private readonly ValidatorInterface          $validator,
-    )
-    {
+        private readonly ValidatorInterface $validator,
+    ) {
     }
 
     public function hashPassword(string $plainTextPassword): string
     {
         $user = new User();
+
         return $this->passwordHasher->hashPassword(
             $user,
             $plainTextPassword

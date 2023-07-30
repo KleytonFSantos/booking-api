@@ -2,11 +2,10 @@
 
 namespace App\Message;
 
-class SendNotificationMessage 
+class SendNotificationMessage
 {
     public function __construct(private string $text)
     {
-        
     }
 
     public function getText()

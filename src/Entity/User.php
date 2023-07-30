@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\Table(name: '`user`')]
+#[ORM\Table(name: '`users`')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -19,13 +19,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     public int $id;
 
-    #[ORM\Column(name: 'first_name', type: 'string', length: 255, nullable: false)]
+    #[ORM\Column(name: 'name', type: 'string', length: 255, nullable: false)]
     #[Assert\NotBlank(message: 'Preencha o campo primeiro nome.')]
-    public ?string $firstName;
-
-    #[ORM\Column(name: 'last_name', type: 'string', length: 255, nullable: false)]
-    #[Assert\NotBlank(message: 'Preencha o campo primeiro last name.')]
-    public ?string $lastName;
+    public ?string $name;
 
     #[ORM\Column(length: 180, unique: true, nullable: false)]
     #[Assert\NotBlank(message: 'Preencha o campo primeiro email.')]
@@ -42,18 +38,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank(message: 'Preencha o campo primeiro password.')]
     public string $password;
 
-     #[Assert\NotBlank()]
-     #[Assert\Length(min:5, max:255)]
-     #[Assert\EqualTo(propertyPath:"password", message:"The password is not the same as the password confirmation")]
-     public string $password_confirmation;
+    #[Assert\NotBlank()]
+    #[Assert\Length(min: 5, max: 255)]
+    #[Assert\EqualTo(propertyPath: 'password', message: 'The password is not the same as the password confirmation')]
+    public string $password_confirmation;
 
-     #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Song::class, orphanRemoval: true)]
-     private Collection $songs;
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Reservation::class)]
+    private Collection $reservations;
 
-     public function __construct()
-     {
-         $this->songs = new ArrayCollection();
-     }
+    public function __construct()
+    {
+        $this->reservations = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -63,36 +59,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return string
      */
-    public function getFirstName(): string
+    public function getName(): ?string
     {
-        return $this->firstName;
+        return $this->name;
     }
 
     /**
-     * @param string $firstName
-     * @return User
+     * @param string $name
      */
-    public function setFirstName(string $firstName): self
+    public function setName(?string $name): self
     {
-        $this->firstName = $firstName;
+        $this->name = $name;
 
         return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getLastName(): string
-    {
-        return $this->lastName;
-    }
-
-    /**
-     * @param string $lastName
-     */
-    public function setLastName(string $lastName): void
-    {
-        $this->lastName = $lastName;
     }
 
     public function getEmail(): ?string
@@ -151,17 +130,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getPasswordConfirmation(): string
     {
         return $this->password_confirmation;
     }
 
-    /**
-     * @param string $password_confirmation
-     */
     public function setPasswordConfirmation(string $password_confirmation): void
     {
         $this->password_confirmation = $password_confirmation;
@@ -177,29 +150,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, Song>
+     * @return Collection<int, Reservation>
      */
-    public function getSongs(): Collection
+    public function getReservations(): Collection
     {
-        return $this->songs;
+        return $this->reservations;
     }
 
-    public function addSong(Song $song): self
+    public function addReservation(Reservation $reservation): static
     {
-        if (!$this->songs->contains($song)) {
-            $this->songs->add($song);
-            $song->setUser($this);
+        if (!$this->reservations->contains($reservation)) {
+            $this->reservations->add($reservation);
+            $reservation->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeSong(Song $song): self
+    public function removeReservation(Reservation $reservation): static
     {
-        if ($this->songs->removeElement($song)) {
+        if ($this->reservations->removeElement($reservation)) {
             // set the owning side to null (unless already changed)
-            if ($song->getUser() === $this) {
-                $song->setUser(null);
+            if ($reservation->getUser() === $this) {
+                $reservation->setUser(null);
             }
         }
 

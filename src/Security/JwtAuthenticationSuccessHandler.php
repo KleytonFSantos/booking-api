@@ -1,10 +1,8 @@
 <?php
+
 namespace App\Security;
 
-use App\Entity\User;
 use App\Repository\UserRepository;
-use App\Service\UserRegistrationService;
-use Lexik\Bundle\JWTAuthenticationBundle\Event\AuthenticationSuccessEvent;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTManager;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,7 +17,7 @@ class JwtAuthenticationSuccessHandler implements AuthenticationSuccessHandlerInt
     private JWTManager $jwtManager;
     private UserRepository $userRepository;
 
-    public function __construct(JWTManager $jwtManager,  UserRepository $userRepository)
+    public function __construct(JWTManager $jwtManager, UserRepository $userRepository)
     {
         $this->jwtManager = $jwtManager;
         $this->userRepository = $userRepository;

@@ -11,7 +11,6 @@ use Symfony\Component\Messenger\MessageBusInterface;
 #[AsMessageHandler]
 class SendNotificationHandler
 {
-
     public function __construct(private readonly MessageBusInterface $bus, private readonly MailerInterface $mailer)
     {
     }
@@ -23,8 +22,7 @@ class SendNotificationHandler
             ->to('akatsukipb12@gmail.com')
             ->subject('teste')
             ->text($message->getText());
-        
+
         $this->mailer->send($email);
     }
-
 }

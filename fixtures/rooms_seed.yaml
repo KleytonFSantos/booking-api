@@ -1,0 +1,5 @@
+App\Entity\Room:
+  room_{1..8}:
+    roomNumber: <current()>
+    price: 100
+    vacancy: false
