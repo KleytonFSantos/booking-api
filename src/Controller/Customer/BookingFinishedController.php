@@ -2,7 +2,6 @@
 
 namespace App\Controller\Customer;
 
-use App\Entity\Reservation;
 use App\Exception\ReservationNotFound;
 use App\Service\BookingService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,7 +23,6 @@ class BookingFinishedController extends AbstractController
     #[Route('/finished/{booking}', name: 'booking_finished', methods: 'GET')]
     public function __invoke(int $booking, UserInterface $user): JsonResponse
     {
-
         $this->bookingService->finished($booking);
 
         return new JsonResponse(

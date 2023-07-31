@@ -63,7 +63,6 @@ class BookingService
         $this->reservationRepository->save($reservationObj);
     }
 
-
     /**
      * @throws ReservationNotFound
      */

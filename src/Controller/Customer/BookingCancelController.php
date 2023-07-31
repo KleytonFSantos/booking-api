@@ -2,7 +2,6 @@
 
 namespace App\Controller\Customer;
 
-use App\Entity\Reservation;
 use App\Exception\ReservationNotFound;
 use App\Service\BookingService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,7 +23,6 @@ class BookingCancelController extends AbstractController
     #[Route('/cancel/{booking}', name: 'booking_cancel', methods: 'GET')]
     public function __invoke(int $booking, UserInterface $user): JsonResponse
     {
-
         $this->bookingService->cancel($booking);
 
         return new JsonResponse(
