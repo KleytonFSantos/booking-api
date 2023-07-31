@@ -7,11 +7,24 @@ use Symfony\Component\HttpFoundation\Response;
 
 class RoomAlreadyBooked extends \Exception
 {
-    public function __construct(Room $room)
-    {
+    public function __construct(
+        private readonly ?Room $room
+    ) {
         parent::__construct(
-            sprintf('The room %s is already booked!', (string) $room->getId()),
+            $this->errorMessage(),
             Response::HTTP_BAD_REQUEST
+        );
+    }
+
+    public function errorMessage(): string
+    {
+        if (empty($this->room)) {
+            return 'No room available';
+        }
+
+        return sprintf(
+            'The room %s is already booked!',
+            (string) $this->room->getId()
         );
     }
 }

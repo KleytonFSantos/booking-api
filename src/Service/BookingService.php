@@ -21,6 +21,9 @@ class BookingService
     ) {
     }
 
+    /**
+     * @throws RoomAlreadyBooked
+     */
     public function createBooking(
         UserInterface $user,
         ?ReservationDTO $data,
@@ -38,9 +41,12 @@ class BookingService
         $this->reservationRepository->save($reservation);
     }
 
-    public function checkBookedRoom(Room $room)
+    /**
+     * @throws RoomAlreadyBooked
+     */
+    public function checkBookedRoom(?Room $room): void
     {
-        if ($room->isVacancy()) {
+        if (empty($room) || $room->isVacancy()) {
             throw new RoomAlreadyBooked($room);
         }
     }

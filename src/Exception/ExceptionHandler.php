@@ -4,6 +4,7 @@ namespace App\Exception;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
@@ -17,12 +18,15 @@ class ExceptionHandler implements EventSubscriberInterface
     public function handleException(ExceptionEvent $event): void
     {
         $exception = $event->getThrowable();
+        $statusCode = !$exception->getCode()
+            ? Response::HTTP_INTERNAL_SERVER_ERROR
+            : $exception->getCode();
 
         $response = new JsonResponse(
             [
                 'error' => $exception->getMessage(),
             ],
-            $exception->getCode()
+            $statusCode
         );
 
         $event->setResponse($response);
