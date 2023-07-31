@@ -3,6 +3,7 @@
 namespace App\Controller\Customer;
 
 use App\DTO\ReservationDTO;
+use App\Exception\RoomAlreadyBooked;
 use App\Service\BookingService;
 use App\Validation\ValidationResponseErrors;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,6 +23,9 @@ class BookingController extends AbstractController
     ) {
     }
 
+    /**
+     * @throws RoomAlreadyBooked
+     */
     #[Route('/booking', name: 'app_booking', methods: 'POST')]
     public function __invoke(Request $request, UserInterface $user): JsonResponse
     {
@@ -33,7 +37,7 @@ class BookingController extends AbstractController
 
         return new JsonResponse(
             [
-                'message' => 'Booking complete successfuly',
+                'message' => 'Booking complete successfully',
             ],
             Response::HTTP_OK
         );

@@ -6,8 +6,9 @@ use App\Repository\ReservationRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: ReservationRepository::class)]
-class Reservation
+class Reservation extends EntityBase
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -18,9 +19,12 @@ class Reservation
     #[ORM\JoinColumn(name: 'user_id', nullable: false)]
     private ?User $user = null;
 
-    #[ORM\ManyToOne(cascade: ['persist', 'remove'], inversedBy: 'reservation')]
+    #[ORM\ManyToOne(inversedBy: 'reservation')]
     #[ORM\JoinColumn(name: 'room_id', nullable: false)]
     private ?Room $room = null;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $status = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $start_date = null;
@@ -58,6 +62,22 @@ class Reservation
         $this->room = $room;
 
         return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param string|null $status
+     */
+    public function setStatus(?string $status): void
+    {
+        $this->status = $status;
     }
 
     public function getStartDate(): ?\DateTimeInterface
