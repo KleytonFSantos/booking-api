@@ -15,12 +15,12 @@ class Reservation
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'reservations')]
-    #[ORM\JoinColumn(nullable: false, fieldName: 'user_id')]
-    private ?User $user_id = null;
+    #[ORM\JoinColumn(name: 'user_id', nullable: false)]
+    private ?User $user = null;
 
-    #[ORM\ManyToOne(inversedBy: 'reservation', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Room $room_id = null;
+    #[ORM\ManyToOne(cascade: ['persist', 'remove'], inversedBy: 'reservation')]
+    #[ORM\JoinColumn(name: 'room_id', nullable: false)]
+    private ?Room $room = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $start_date = null;
@@ -38,24 +38,24 @@ class Reservation
 
     public function getUser(): ?User
     {
-        return $this->user_id;
+        return $this->user;
     }
 
-    public function setUser(?User $user_id): static
+    public function setUser(?User $user): static
     {
-        $this->user_id = $user_id;
+        $this->user = $user;
 
         return $this;
     }
 
     public function getRoom(): ?Room
     {
-        return $this->room_id;
+        return $this->room;
     }
 
-    public function setRoom(Room $room_id): static
+    public function setRoom(Room $room): static
     {
-        $this->room_id = $room_id;
+        $this->room = $room;
 
         return $this;
     }

@@ -22,7 +22,7 @@ class Room
     #[ORM\Column]
     private ?bool $vacancy = null;
 
-    #[ORM\OneToOne(mappedBy: 'room_id', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(mappedBy: 'room', cascade: ['persist', 'remove'])]
     private ?Reservation $reservation = null;
 
     public function getId(): ?int
