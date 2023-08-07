@@ -89,9 +89,9 @@ class Reservation extends EntityBase
         $this->status = $status;
     }
 
-    public function getStartDate(): ?\DateTimeInterface
+    public function getStartDate(): ?string
     {
-        return $this->start_date;
+        return $this->start_date->format('d/m/Y');
     }
 
     public function setStartDate(?\DateTimeInterface $start_date): static
@@ -101,9 +101,9 @@ class Reservation extends EntityBase
         return $this;
     }
 
-    public function getEndDate(): ?\DateTimeInterface
+    public function getEndDate(): ?string
     {
-        return $this->end_date;
+        return $this->end_date->format('d/m/Y');
     }
 
     public function setEndDate(?\DateTimeInterface $end_date): static
