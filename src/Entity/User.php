@@ -33,7 +33,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public string $email;
 
     #[ORM\Column]
-    #[Groups(["booking_list"])]
     public array $roles = [];
 
     /**

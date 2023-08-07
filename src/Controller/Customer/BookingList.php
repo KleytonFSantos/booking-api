@@ -12,19 +12,15 @@ use Symfony\Component\Serializer\SerializerInterface;
 class BookingList extends AbstractController
 {
 
-    public function __construct(
-        private readonly ReservationRepository $reservationRepository,
-        private readonly SerializerInterface $serializer,
-
-    )
-    {
-    }
-
     #[Route('/booking-list', name: 'booking_list', methods: 'GET')]
-    public function __invoke(): JsonResponse
+    public function __invoke(
+        ReservationRepository $reservationRepository,
+        SerializerInterface $serializer,
+
+    ): JsonResponse
      {
-         $bookingList = $this->reservationRepository->findAll();
-         $allBooking = $this->serializer->serialize($bookingList, 'json', ['groups' => 'booking_list']);
+         $bookingList = $reservationRepository->findAll();
+         $allBooking = $serializer->serialize($bookingList, 'json', ['groups' => 'booking_list']);
 
         return new JsonResponse($allBooking, Response::HTTP_OK, [], true);
      }
