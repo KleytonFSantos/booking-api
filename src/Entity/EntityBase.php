@@ -12,6 +12,12 @@ class EntityBase implements EntityBaseInterface
     #[ORM\Column(name: 'updated_at', type: 'datetime', nullable: true)]
     protected ?\DateTime $updatedAt;
 
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
+    }
+
     #[ORM\PrePersist()]
     #[ORM\PreUpdate()]
     public function updatedTimestamps(): void

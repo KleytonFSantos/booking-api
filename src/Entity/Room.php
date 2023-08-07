@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\RoomRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: RoomRepository::class)]
 class Room
@@ -11,15 +12,19 @@ class Room
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(["booking_list"])]
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Groups(["booking_list"])]
     private ?int $roomNumber;
 
     #[ORM\Column]
+    #[Groups(["booking_list"])]
     private ?int $price = null;
 
     #[ORM\Column]
+    #[Groups(["booking_list"])]
     private ?bool $vacancy = null;
 
     #[ORM\OneToOne(mappedBy: 'room', cascade: ['persist', 'remove'])]
