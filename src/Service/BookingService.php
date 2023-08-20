@@ -5,6 +5,7 @@ namespace App\Service;
 use App\DTO\ReservationDTO;
 use App\Entity\Room;
 use App\Enum\ReservationStatusEnum;
+use App\Exception\DateIsPasteException;
 use App\Exception\ReservationNotFound;
 use App\Exception\RoomAlreadyBooked;
 use App\Factory\BookingBuilder;
@@ -26,6 +27,7 @@ class BookingService
 
     /**
      * @throws RoomAlreadyBooked
+     * @throws \Exception
      */
     public function createBooking(
         UserInterface $user,
@@ -37,9 +39,11 @@ class BookingService
 
         $this->checkBookedRoom($room);
 
+        $this->isPastDate($data->getStartDate());
+
         $reservation = $this->bookingBuilder->build($data, $room, $userReserving);
 
-        $room->setVacancy(true);
+        $room->setVacancy(false);
 
         $this->reservationRepository->save($reservation);
     }
@@ -58,7 +62,7 @@ class BookingService
         $reservationObj->setStatus(ReservationStatusEnum::CANCELED->value);
 
         $room = $this->roomRepository->find($reservationObj->getRoom());
-        $room->setVacancy(false);
+        $room->setVacancy(true);
 
         $this->reservationRepository->save($reservationObj);
     }
@@ -87,8 +91,18 @@ class BookingService
      */
     public function checkBookedRoom(?Room $room): void
     {
-        if (empty($room) || $room->isVacancy()) {
+        if (empty($room) || !$room->isVacancy()) {
             throw new RoomAlreadyBooked($room);
+        }
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function isPastDate(string $startDate): void
+    {
+        if (new \DateTime($startDate) < new \DateTime()) {
+            throw new DateIsPasteException('Choose a future date to start your reservation!');
         }
     }
 }

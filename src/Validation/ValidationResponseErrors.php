@@ -3,6 +3,7 @@
 namespace App\Validation;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class ValidationResponseErrors
@@ -17,7 +18,7 @@ class ValidationResponseErrors
         $errors = $this->validation->validate($data);
         $messages = ['message' => 'validation_failed', 'errors' => []];
 
-        /* @var \Symfony\Component\Validator\ConstraintViolation */
+        /* @var ConstraintViolation $message */
         foreach ($errors as $message) {
             $messages['errors'][] = [
                 'property' => $message->getPropertyPath(),

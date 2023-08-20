@@ -2,13 +2,12 @@
 
 namespace App\Exception;
 
-use App\Entity\Room;
 use Symfony\Component\HttpFoundation\Response;
 
-class RoomAlreadyBooked extends \Exception
+class DateIsPasteException extends \Exception
 {
     public function __construct(
-        private readonly ?Room $room
+        protected $message
     ) {
         parent::__construct(
             $this->errorMessage(),
@@ -18,13 +17,6 @@ class RoomAlreadyBooked extends \Exception
 
     public function errorMessage(): string
     {
-        if (empty($this->room)) {
-            return 'No room available';
-        }
-
-        return sprintf(
-            'The room %s is already booked!',
-            $this->room->getId()
-        );
+        return $this->message;
     }
 }

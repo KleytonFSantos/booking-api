@@ -20,60 +20,36 @@ class ReservationDTO
     )]
     private ?string $endDate = null;
 
-    /**
-     * Get the value of room.
-     */
-    public function getRoom()
+    public function getRoom(): ?int
     {
         return $this->room;
     }
 
-    /**
-     * Set the value of room.
-     *
-     * @return self
-     */
-    public function setRoom($room)
+    public function setRoom($room): static
     {
         $this->room = $room;
 
         return $this;
     }
 
-    /**
-     * Get the value of startDate.
-     */
-    public function getStartDate()
+    public function getStartDate(): ?string
     {
         return $this->startDate;
     }
 
-    /**
-     * Set the value of startDate.
-     *
-     * @return self
-     */
-    public function setStartDate($startDate)
+    public function setStartDate($startDate): static
     {
         $this->startDate = $startDate;
 
         return $this;
     }
 
-    /**
-     * Get the value of endDate.
-     */
-    public function getEndDate()
+    public function getEndDate(): ?string
     {
         return $this->endDate;
     }
 
-    /**
-     * Set the value of endDate.
-     *
-     * @return self
-     */
-    public function setEndDate($endDate)
+    public function setEndDate($endDate): static
     {
         $this->endDate = $endDate;
 
