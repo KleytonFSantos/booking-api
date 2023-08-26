@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class BookingList extends AbstractController
+class BookingListController extends AbstractController
 {
     #[Route('/booking-list', name: 'booking_list', methods: 'GET')]
     public function __invoke(
