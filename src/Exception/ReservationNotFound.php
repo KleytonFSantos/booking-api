@@ -2,15 +2,15 @@
 
 namespace App\Exception;
 
+use Symfony\Component\HttpFoundation\Response;
+
 class ReservationNotFound extends \Exception
 {
-    public function __construct(
-        protected $message,
-        protected $code
-    ) {
+    public function __construct(protected $message)
+    {
         parent::__construct(
             $this->message,
-            $this->code
+            Response::HTTP_NOT_FOUND
         );
     }
 }

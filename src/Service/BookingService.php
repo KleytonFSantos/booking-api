@@ -12,7 +12,7 @@ use App\Factory\BookingBuilder;
 use App\Repository\ReservationRepository;
 use App\Repository\RoomRepository;
 use App\Repository\UserRepository;
-use Symfony\Component\HttpFoundation\Response;
+use Carbon\Carbon;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class BookingService
@@ -43,8 +43,6 @@ class BookingService
 
         $reservation = $this->bookingBuilder->build($data, $room, $userReserving);
 
-        $room->setVacancy(false);
-
         $this->reservationRepository->save($reservation);
     }
 
@@ -56,7 +54,7 @@ class BookingService
         $reservationObj = $this->reservationRepository->find($reservation);
 
         if (!$reservationObj) {
-            throw new ReservationNotFound('Reservation not found', Response::HTTP_NOT_FOUND);
+            throw new ReservationNotFound('Reservation not found');
         }
 
         $reservationObj->setStatus(ReservationStatusEnum::CANCELED->value);
@@ -75,7 +73,7 @@ class BookingService
         $reservationObj = $this->reservationRepository->find($reservation);
 
         if (!$reservationObj) {
-            throw new ReservationNotFound('Reservation not found', Response::HTTP_NOT_FOUND);
+            throw new ReservationNotFound('Reservation not found');
         }
 
         $reservationObj->setStatus(ReservationStatusEnum::FINISHED->value);
@@ -101,7 +99,9 @@ class BookingService
      */
     public function isPastDate(string $startDate): void
     {
-        if (new \DateTime($startDate) < new \DateTime()) {
+        $startDate = Carbon::parse($startDate)->endOfDay();
+
+        if ($startDate < new \DateTime()) {
             throw new DateIsPasteException('Choose a future date to start your reservation!');
         }
     }

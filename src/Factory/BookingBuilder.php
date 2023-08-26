@@ -29,6 +29,8 @@ class BookingBuilder
         $reservation->setEndDate($endDateParsed);
         $reservation->setPrice($room->getPrice() * $daysDiff);
 
+        $reservation->getRoom()->setVacancy(false);
+
         return $reservation;
     }
 }
