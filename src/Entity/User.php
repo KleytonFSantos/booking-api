@@ -18,18 +18,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(["booking_list"])]
+    #[Groups(['booking_list'])]
     public int $id;
 
     #[ORM\Column(name: 'name', type: 'string', length: 255, nullable: false)]
     #[Assert\NotBlank(message: 'Preencha o campo primeiro nome.')]
-    #[Groups(["booking_list"])]
+    #[Groups(['booking_list'])]
     public ?string $name;
 
     #[ORM\Column(length: 180, unique: true, nullable: false)]
     #[Assert\NotBlank(message: 'Preencha o campo primeiro email.')]
     #[Assert\Email()]
-    #[Groups(["booking_list"])]
+    #[Groups(['booking_list'])]
     public string $email;
 
     #[ORM\Column]

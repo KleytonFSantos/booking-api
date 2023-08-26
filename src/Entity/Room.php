@@ -12,19 +12,19 @@ class Room
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(["booking_list"])]
+    #[Groups(['booking_list'])]
     private ?int $id = null;
 
     #[ORM\Column]
-    #[Groups(["booking_list"])]
+    #[Groups(['booking_list'])]
     private ?int $roomNumber;
 
     #[ORM\Column]
-    #[Groups(["booking_list"])]
+    #[Groups(['booking_list'])]
     private ?int $price = null;
 
     #[ORM\Column]
-    #[Groups(["booking_list"])]
+    #[Groups(['booking_list'])]
     private ?bool $vacancy = null;
 
     #[ORM\OneToOne(mappedBy: 'room', cascade: ['persist', 'remove'])]

@@ -15,37 +15,37 @@ class Reservation extends EntityBase
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(["booking_list"])]
+    #[Groups(['booking_list'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'reservations')]
     #[ORM\JoinColumn(name: 'user_id', nullable: false)]
-    #[Groups(["booking_list"])]
+    #[Groups(['booking_list'])]
     private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'reservation')]
     #[ORM\JoinColumn(name: 'room_id', nullable: false)]
-    #[Groups(["booking_list"])]
+    #[Groups(['booking_list'])]
     private ?Room $room = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     #[SerializedName('status')]
-    #[Groups(["booking_list"])]
+    #[Groups(['booking_list'])]
     private ?string $status = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     #[SerializedName('start_date')]
-    #[Groups(["booking_list"])]
+    #[Groups(['booking_list'])]
     private ?\DateTimeInterface $start_date = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     #[SerializedName('end_date')]
-    #[Groups(["booking_list"])]
+    #[Groups(['booking_list'])]
     private ?\DateTimeInterface $end_date = null;
 
     #[ORM\Column]
     #[SerializedName('price')]
-    #[Groups(["booking_list"])]
+    #[Groups(['booking_list'])]
     private ?int $price = null;
 
     public function getId(): ?int
@@ -53,7 +53,7 @@ class Reservation extends EntityBase
         return $this->id;
     }
 
-    #[Groups(["booking_list"])]
+    #[Groups(['booking_list'])]
     public function getUser(): ?User
     {
         return $this->user;
@@ -66,7 +66,7 @@ class Reservation extends EntityBase
         return $this;
     }
 
-    #[Groups(["booking_list"])]
+    #[Groups(['booking_list'])]
     public function getRoom(): ?Room
     {
         return $this->room;
