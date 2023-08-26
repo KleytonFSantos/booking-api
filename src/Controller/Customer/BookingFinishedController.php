@@ -27,7 +27,7 @@ class BookingFinishedController extends AbstractController
 
         return new JsonResponse(
             [
-                'message' => 'Booking finished successfully',
+                'message' => 'Booking '.$booking.' was finished successfully',
             ],
             Response::HTTP_OK
         );

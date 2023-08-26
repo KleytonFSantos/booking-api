@@ -27,7 +27,7 @@ class BookingCancelController extends AbstractController
 
         return new JsonResponse(
             [
-                'message' => 'Booking canceled successfully',
+                'message' => 'Booking '.$booking.' was canceled successfully',
             ],
             Response::HTTP_OK
         );
