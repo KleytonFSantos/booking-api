@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Base\EntityBase;
 use App\Repository\ReservationRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;

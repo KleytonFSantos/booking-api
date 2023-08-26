@@ -1,8 +1,6 @@
 <?php
 
-namespace App\Entity;
-
-use Doctrine\ORM\Mapping as ORM;
+namespace App\Entity\Base;
 
 interface EntityBaseInterface
 {
