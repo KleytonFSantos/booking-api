@@ -3,30 +3,34 @@
 namespace App\Tests;
 
 use App\DTO\ReservationDTO;
-use App\Entity\Reservation;
 use App\Entity\Room;
-use App\Entity\User;
 use App\Exception\DateIsPasteException;
 use App\Exception\RoomAlreadyBooked;
 use App\Factory\BookingBuilder;
+use App\Repository\ReservationRepository;
+use App\Repository\RoomRepository;
+use App\Repository\UserRepository;
 use App\Service\BookingService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class CreateBookingTest extends KernelTestCase
 {
-    public function testRoomExistsAndBeVacancy(): void
+    public function testRoomExistsAndIsVacant(): void
     {
-        self::bootKernel();
+        $userRepositoryMock = $this->createMock(UserRepository::class);
+        $reservationRepositoryMock = $this->createMock(ReservationRepository::class);
+        $roomRepositoryMock = $this->createMock(RoomRepository::class);
+        $bookBuilderMock = $this->createMock(BookingBuilder::class);
 
-        $container = static::getContainer();
-
-        /** @var BookingService $bookingService */
-        $bookingService = $container->get(BookingService::class);
+        $bookingService = new BookingService(
+            $userRepositoryMock,
+            $roomRepositoryMock,
+            $bookBuilderMock,
+            $reservationRepositoryMock,
+        );
 
         $room = new Room();
         $room->setVacancy(true);
-        $room->setRoomNumber(2);
-        $room->setPrice(100);
 
         try {
             $bookingService->checkBookedRoom($room);
@@ -39,17 +43,20 @@ class CreateBookingTest extends KernelTestCase
 
     public function testShouldThrowExceptionIfRoomExistsAndNotBeVacancy(): void
     {
-        self::bootKernel();
+        $userRepositoryMock = $this->createMock(UserRepository::class);
+        $reservationRepositoryMock = $this->createMock(ReservationRepository::class);
+        $roomRepositoryMock = $this->createMock(RoomRepository::class);
+        $bookBuilderMock = $this->createMock(BookingBuilder::class);
 
-        $container = static::getContainer();
-
-        /** @var BookingService $bookingService */
-        $bookingService = $container->get(BookingService::class);
+        $bookingService = new BookingService(
+            $userRepositoryMock,
+            $roomRepositoryMock,
+            $bookBuilderMock,
+            $reservationRepositoryMock,
+        );
 
         $room = new Room();
         $room->setVacancy(false);
-        $room->setRoomNumber(2);
-        $room->setPrice(100);
 
         $this->expectException(RoomAlreadyBooked::class);
 
@@ -61,22 +68,20 @@ class CreateBookingTest extends KernelTestCase
      */
     public function testShouldThrowExceptionIfStartDateIsPateThanNow(): void
     {
-        self::bootKernel();
-
-        $container = static::getContainer();
-
-        $room = new Room();
-        $room->setVacancy(false);
-        $room->setRoomNumber(2);
-        $room->setPrice(100);
+        $userRepositoryMock = $this->createMock(UserRepository::class);
+        $reservationRepositoryMock = $this->createMock(ReservationRepository::class);
+        $roomRepositoryMock = $this->createMock(RoomRepository::class);
+        $bookBuilderMock = $this->createMock(BookingBuilder::class);
 
         $reservationDto = new ReservationDTO();
         $reservationDto->setStartDate('23-08-24');
-        $reservationDto->setRoom($room->getId());
-        $reservationDto->setEndDate('23-08-30');
 
-        /** @var BookingService $bookingService */
-        $bookingService = $container->get(BookingService::class);
+        $bookingService = new BookingService(
+            $userRepositoryMock,
+            $roomRepositoryMock,
+            $bookBuilderMock,
+            $reservationRepositoryMock,
+        );
 
         $this->expectException(DateIsPasteException::class);
 

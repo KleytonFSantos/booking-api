@@ -25,7 +25,7 @@ class ReservationDTO
         return $this->room;
     }
 
-    public function setRoom($room): static
+    public function setRoom(int $room): static
     {
         $this->room = $room;
 
