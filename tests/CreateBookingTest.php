@@ -66,7 +66,7 @@ class CreateBookingTest extends KernelTestCase
     /**
      * @throws \Exception
      */
-    public function testShouldThrowExceptionIfStartDateIsPateThanNow(): void
+    public function testShouldThrowExceptionIfStartDateIsPastThanNow(): void
     {
         $userRepositoryMock = $this->createMock(UserRepository::class);
         $reservationRepositoryMock = $this->createMock(ReservationRepository::class);
