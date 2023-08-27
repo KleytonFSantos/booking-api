@@ -4,13 +4,14 @@ namespace App\Tests;
 
 use App\DTO\ReservationDTO;
 use App\Entity\Room;
-use App\Exception\DateIsPasteException;
+use App\Exception\DateIsPastException;
 use App\Exception\RoomAlreadyBooked;
 use App\Factory\BookingBuilder;
 use App\Repository\ReservationRepository;
 use App\Repository\RoomRepository;
 use App\Repository\UserRepository;
 use App\Service\BookingService;
+use Carbon\Carbon;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class CreateBookingTest extends KernelTestCase
@@ -74,7 +75,7 @@ class CreateBookingTest extends KernelTestCase
         $bookBuilderMock = $this->createMock(BookingBuilder::class);
 
         $reservationDto = new ReservationDTO();
-        $reservationDto->setStartDate('23-08-24');
+        $reservationDto->setStartDate(Carbon::now()->hour(-1));
 
         $bookingService = new BookingService(
             $userRepositoryMock,
@@ -83,7 +84,7 @@ class CreateBookingTest extends KernelTestCase
             $reservationRepositoryMock,
         );
 
-        $this->expectException(DateIsPasteException::class);
+        $this->expectException(DateIsPastException::class);
 
         $bookingService->isPastDate($reservationDto->getStartDate());
     }

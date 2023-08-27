@@ -5,7 +5,7 @@ namespace App\Service;
 use App\DTO\ReservationDTO;
 use App\Entity\Room;
 use App\Enum\ReservationStatusEnum;
-use App\Exception\DateIsPasteException;
+use App\Exception\DateIsPastException;
 use App\Exception\ReservationNotFound;
 use App\Exception\RoomAlreadyBooked;
 use App\Factory\BookingBuilder;
@@ -99,10 +99,14 @@ class BookingService
      */
     public function isPastDate(string $startDate): void
     {
-        $startDate = Carbon::parse($startDate)->endOfDay();
+        $brasilTimezone = new \DateTimeZone('America/Sao_Paulo');
 
-        if ($startDate < new \DateTime()) {
-            throw new DateIsPasteException('Choose a future date to start your reservation!');
+        $currentDateTime = Carbon::now($brasilTimezone);
+
+        $startDate = Carbon::parse($startDate, $brasilTimezone);
+
+        if ($startDate < $currentDateTime) {
+            throw new DateIsPastException('Choose a future date to start your reservation!');
         }
     }
 }

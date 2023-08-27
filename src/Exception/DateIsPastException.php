@@ -4,7 +4,7 @@ namespace App\Exception;
 
 use Symfony\Component\HttpFoundation\Response;
 
-class DateIsPasteException extends \Exception
+class DateIsPastException extends \Exception
 {
     public function __construct(
         protected $message
