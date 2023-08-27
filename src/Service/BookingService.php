@@ -79,7 +79,7 @@ class BookingService
         $reservationObj->setStatus(ReservationStatusEnum::FINISHED->value);
 
         $room = $this->roomRepository->find($reservationObj->getRoom());
-        $room->setVacancy(false);
+        $room->setVacancy(true);
 
         $this->reservationRepository->save($reservationObj);
     }
