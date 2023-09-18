@@ -28,7 +28,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 180, unique: true, nullable: false)]
     #[Assert\NotBlank(message: 'Preencha o campo primeiro email.')]
-    #[Assert\Email()]
+    #[Assert\Email]
     #[Groups(['booking_list'])]
     public string $email;
 
@@ -42,9 +42,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank(message: 'Preencha o campo primeiro password.')]
     public string $password;
 
-    #[Assert\NotBlank()]
+    #[Assert\NotBlank]
     #[Assert\Length(min: 5, max: 255)]
-    #[Assert\EqualTo(propertyPath: 'password', message: 'The password is not the same as the password confirmation')]
+    #[Assert\EqualTo(
+        propertyPath: 'password',
+        message: 'The password is not the same as the password confirmation'
+    )]
     public string $password_confirmation;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Reservation::class)]
@@ -60,22 +63,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName(?string $name): self
+    public function setName(?string $name): void
     {
         $this->name = $name;
-
-        return $this;
     }
 
     public function getEmail(): ?string
@@ -83,11 +78,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
-    public function setEmail(string $email): self
+    public function setEmail(string $email): void
     {
         $this->email = $email;
-
-        return $this;
     }
 
     /**
@@ -112,11 +105,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return array_unique($roles);
     }
 
-    public function setRoles(array $roles): self
+    public function setRoles(array $roles): void
     {
         $this->roles = $roles;
-
-        return $this;
     }
 
     /**
@@ -127,11 +118,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->password;
     }
 
-    public function setPassword(string $password): self
+    public function setPassword(string $password): void
     {
         $this->password = $password;
-
-        return $this;
     }
 
     public function getPasswordConfirmation(): string
@@ -161,17 +150,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->reservations;
     }
 
-    public function addReservation(Reservation $reservation): static
+    public function addReservation(Reservation $reservation): void
     {
         if (!$this->reservations->contains($reservation)) {
             $this->reservations->add($reservation);
             $reservation->setUser($this);
         }
-
-        return $this;
     }
 
-    public function removeReservation(Reservation $reservation): static
+    public function removeReservation(Reservation $reservation): void
     {
         if ($this->reservations->removeElement($reservation)) {
             // set the owning side to null (unless already changed)
@@ -179,7 +166,5 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $reservation->setUser(null);
             }
         }
-
-        return $this;
     }
 }

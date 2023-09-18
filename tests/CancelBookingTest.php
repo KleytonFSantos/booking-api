@@ -44,7 +44,7 @@ class CancelBookingTest extends TestCase
             $reservationRepositoryMock,
         );
 
-        $bookingService->cancel(1); // Assuming 1 is the reservation ID
+        $bookingService->cancel($reservation->getId());
 
         $this->assertSame(ReservationStatusEnum::CANCELED->value, $reservation->getStatus());
         $this->assertTrue($room->isVacancy());

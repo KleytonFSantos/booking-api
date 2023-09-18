@@ -95,11 +95,9 @@ class Reservation extends EntityBase
         return $this->start_date->format('d/m/Y');
     }
 
-    public function setStartDate(?\DateTimeInterface $start_date): static
+    public function setStartDate(?\DateTimeInterface $start_date): void
     {
         $this->start_date = $start_date;
-
-        return $this;
     }
 
     public function getEndDate(): ?string
@@ -107,11 +105,9 @@ class Reservation extends EntityBase
         return $this->end_date->format('d/m/Y');
     }
 
-    public function setEndDate(?\DateTimeInterface $end_date): static
+    public function setEndDate(?\DateTimeInterface $end_date): void
     {
         $this->end_date = $end_date;
-
-        return $this;
     }
 
     public function getPrice(): ?int
@@ -119,10 +115,8 @@ class Reservation extends EntityBase
         return $this->price;
     }
 
-    public function setPrice(int $price): static
+    public function setPrice(int $price): void
     {
         $this->price = $price;
-
-        return $this;
     }
 }

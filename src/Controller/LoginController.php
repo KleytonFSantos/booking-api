@@ -14,7 +14,8 @@ class LoginController extends AbstractController
     #[Route('/login', name: 'api_login')]
     public function index(#[CurrentUser] ?User $user): JsonResponse
     {
-        if (null === $user) {
+
+        if (!$user) {
             return $this->json([
                 'message' => 'missing credentials',
             ], Response::HTTP_UNAUTHORIZED);

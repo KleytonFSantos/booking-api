@@ -40,11 +40,9 @@ class Room
         return $this->price;
     }
 
-    public function setPrice(int $price): static
+    public function setPrice(int $price): void
     {
         $this->price = $price;
-
-        return $this;
     }
 
     public function isVacancy(): ?bool
@@ -52,11 +50,9 @@ class Room
         return $this->vacancy;
     }
 
-    public function setVacancy(bool $vacancy): static
+    public function setVacancy(bool $vacancy): void
     {
         $this->vacancy = $vacancy;
-
-        return $this;
     }
 
     public function getReservation(): ?Reservation
@@ -64,7 +60,7 @@ class Room
         return $this->reservation;
     }
 
-    public function setReservation(Reservation $reservation): static
+    public function setReservation(Reservation $reservation): void
     {
         // set the owning side of the relation if necessary
         if ($reservation->getRoom() !== $this) {
@@ -72,27 +68,15 @@ class Room
         }
 
         $this->reservation = $reservation;
-
-        return $this;
     }
 
-    /**
-     * Get the value of room_number.
-     */
-    public function getRoomNumber()
+    public function getRoomNumber(): ?int
     {
         return $this->roomNumber;
     }
 
-    /**
-     * Set the value of roomNumber.
-     *
-     * @return self
-     */
-    public function setRoomNumber($roomNumber)
+    public function setRoomNumber($roomNumber): void
     {
         $this->roomNumber = $roomNumber;
-
-        return $this;
     }
 }
