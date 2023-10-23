@@ -49,6 +49,9 @@ class Reservation extends EntityBase
     #[Groups(['booking_list'])]
     private ?int $price = null;
 
+    #[ORM\OneToOne(mappedBy: 'reservation', cascade: ['persist', 'remove'])]
+    private ?BookingReview $bookingReview = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -118,5 +121,22 @@ class Reservation extends EntityBase
     public function setPrice(int $price): void
     {
         $this->price = $price;
+    }
+
+    public function getBookingReview(): ?BookingReview
+    {
+        return $this->bookingReview;
+    }
+
+    public function setBookingReview(BookingReview $bookingReview): static
+    {
+        // set the owning side of the relation if necessary
+        if ($bookingReview->getReservation() !== $this) {
+            $bookingReview->setReservation($this);
+        }
+
+        $this->bookingReview = $bookingReview;
+
+        return $this;
     }
 }

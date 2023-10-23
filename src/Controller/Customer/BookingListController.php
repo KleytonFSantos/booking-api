@@ -16,9 +16,13 @@ class BookingListController extends AbstractController
         ReservationRepository $reservationRepository,
         SerializerInterface $serializer,
     ): JsonResponse {
-        $bookingList = $reservationRepository->findAll();
-        $allBooking = $serializer->serialize($bookingList, 'json', ['groups' => 'booking_list']);
+        try {
+            $bookingList = $reservationRepository->findAll();
+            $allBooking = $serializer->serialize($bookingList, 'json', ['groups' => 'booking_list']);
 
-        return new JsonResponse($allBooking, Response::HTTP_OK, [], true);
+            return new JsonResponse($allBooking, Response::HTTP_OK, [], true);
+        } catch (\Exception $e) {
+            dd($e);
+        }
     }
 }

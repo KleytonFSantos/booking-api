@@ -53,9 +53,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Reservation::class)]
     private Collection $reservations;
 
+    #[ORM\OneToMany(mappedBy: 'users', targetEntity: BookingReview::class)]
+    private Collection $bookingReviews;
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
+        $this->bookingReviews = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -166,5 +170,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $reservation->setUser(null);
             }
         }
+    }
+
+    /**
+     * @return Collection<int, BookingReview>
+     */
+    public function getBookingReviews(): Collection
+    {
+        return $this->bookingReviews;
+    }
+
+    public function addBookingReview(BookingReview $bookingReview): static
+    {
+        if (!$this->bookingReviews->contains($bookingReview)) {
+            $this->bookingReviews->add($bookingReview);
+            $bookingReview->setUsers($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBookingReview(BookingReview $bookingReview): static
+    {
+        if ($this->bookingReviews->removeElement($bookingReview)) {
+            // set the owning side to null (unless already changed)
+            if ($bookingReview->getUsers() === $this) {
+                $bookingReview->setUsers(null);
+            }
+        }
+
+        return $this;
     }
 }

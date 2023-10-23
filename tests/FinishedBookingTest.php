@@ -26,6 +26,7 @@ class FinishedBookingTest extends TestCase
         $bookBuilderMock = $this->createMock(BookingBuilder::class);
 
         $reservation = new Reservation();
+
         $room = new Room();
         $reservation->setRoom($room);
 

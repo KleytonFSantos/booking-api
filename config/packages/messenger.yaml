@@ -1,19 +1,28 @@
-#framework:
-#    messenger:
-#        # Uncomment this (and the failed transport below) to send failed messages to this transport for later handling.
-#        # failure_transport: failed
-#
-#        transports:
-#            # https://symfony.com/doc/current/messenger.html#transport-configuration
-#            async: '%env(MESSENGER_TRANSPORT_DSN)%'
-#            # failed: 'doctrine://default?queue_name=failed'
-#            # sync: 'sync://'
-#
-#        routing:
-#            # Route your messages to the transports
-#            App\Message\SendNotificationMessage: async
-#
-## when@test:
+framework:
+    messenger:
+        # Uncomment this (and the failed transport below) to send failed messages to this transport for later handling.
+#        failure_transport: failed
+
+        transports:
+            # https://symfony.com/doc/current/messenger.html#transport-configuration
+            async:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+#            failed: 'doctrine://default?queue_name=failed'
+#            sync: 'sync://'
+            async_teste:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN1)%'
+                options:
+                    exchange:
+                        name: 'teste'
+
+        #
+        routing:
+            # Route your messages to the transports
+            App\Message\SendNotificationMessage: async
+            App\Teste\TesteQueue: async_teste
+
+
+## when@test:W
 ##    framework:
 ##        messenger:
 ##            transports:
