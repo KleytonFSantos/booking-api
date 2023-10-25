@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Reservation;
+use App\Enum\ReservationStatusEnum;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -33,6 +34,20 @@ class ReservationRepository extends ServiceEntityRepository
         $manager = $this->getEntityManager();
         $manager->remove($reservation);
         $manager->flush();
+    }
+
+    public function findReservationsToRemind(): array
+    {
+        $qb = $this->createQueryBuilder('reservation');
+
+        return $qb
+            ->andWhere($qb->expr()->between('reservation.start_date', ':start', ':end'))
+            ->andWhere($qb->expr()->eq('reservation.status', ':reservationStatus'))
+            ->setParameter('start', new \DateTime('-3 days'))
+            ->setParameter('end', new \DateTime('+1 day'))
+            ->setParameter('reservationStatus', ReservationStatusEnum::RESERVED->value)
+            ->getQuery()
+            ->getResult();
     }
 
     //    /**
