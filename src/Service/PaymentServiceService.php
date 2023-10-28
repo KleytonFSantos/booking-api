@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Payments;
+use App\Entity\Reservation;
 use App\Entity\User;
 use App\Repository\PaymentsRepository;
 use Stripe\PaymentIntent;
@@ -24,12 +25,13 @@ class PaymentServiceService implements PaymentServiceInterface
     {
         $this->paymentsRepository->cancel($payments);
     }
-    public function builder(User $user, PaymentIntent $paymentIntent): Payments
+
+    public function builder(PaymentIntent $paymentIntent, Reservation $reservation): Payments
     {
         $payments = new Payments();
 
-        $payments->setUsers($user);
-        $payments->setReservation($user->getReservations()->first());
+        $payments->setUsers($reservation->getUser());
+        $payments->setReservation($reservation);
         $payments->setPaymentMethod($paymentIntent->payment_method);
         $payments->setStatus($paymentIntent->status);
         $payments->setAmount($paymentIntent->amount);

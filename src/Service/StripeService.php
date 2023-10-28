@@ -4,11 +4,12 @@ namespace App\Service;
 
 use App\DTO\ChargeDTO;
 use App\Entity\Payments;
+use App\Entity\Reservation;
 use App\Repository\UserRepository;
 use Stripe\Collection;
 use Stripe\Exception\ApiErrorException;
+use Stripe\SearchResult;
 use Stripe\StripeClient;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 class StripeService
 {
@@ -18,7 +19,6 @@ class StripeService
     public function __construct(
         private readonly string                  $stripeApiKey,
         private readonly PaymentServiceInterface $paymentService,
-        private readonly UserRepository          $userRepository
     ) {
     }
 
@@ -33,10 +33,18 @@ class StripeService
     /**
      * @throws ApiErrorException
      */
-    public function createPaymentIntent(ChargeDTO $chargeDTO, UserInterface $user): void
+    public function getPaymentIntentByReservationId(Reservation $reservation): SearchResult
     {
-        $userReserving = $this->userRepository->findOneBy(['email' => $user->getUserIdentifier()]);
+        return $this->getStripeClient()->paymentIntents->search([
+            'query' => "metadata['reservation_id']:'". $reservation->getId() ."'"
+        ]);
+    }
 
+    /**
+     * @throws ApiErrorException
+     */
+    public function createPaymentIntent(ChargeDTO $chargeDTO, Reservation $reservation): void
+    {
         $options = [
             'amount' => $chargeDTO->getAmount(),
             'currency' => self::BASE_CURRENCY,
@@ -47,10 +55,23 @@ class StripeService
 
          $paymentIntent = $this->getStripeClient()->paymentIntents->create($options);
 
-         $payments = $this->paymentService->builder($userReserving, $paymentIntent);
+         $payments = $this->paymentService->builder($paymentIntent, $reservation);
          $this->paymentService->save($payments);
     }
 
+    /**
+     * @throws ApiErrorException
+     */
+    public function updatePaymentIntent(Payments $payments): void
+    {
+        $options = [
+            'amount' => $payments->getAmount(),
+            'metadata' => ['reservation_id' => (string) $payments->getReservation()->getId()]
+        ];
+
+        $this->getStripeClient()->paymentIntents->update($payments->getTransactionId(), $options);
+        $this->paymentService->save($payments);
+    }
     /**
      * @throws ApiErrorException
      */
