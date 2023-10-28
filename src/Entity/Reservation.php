@@ -52,6 +52,9 @@ class Reservation extends EntityBase
     #[ORM\OneToOne(mappedBy: 'reservation', cascade: ['persist', 'remove'])]
     private ?BookingReview $bookingReview = null;
 
+    #[ORM\OneToOne(mappedBy: 'reservation', cascade: ['persist', 'remove'])]
+    private ?Payments $payments = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -136,6 +139,22 @@ class Reservation extends EntityBase
         }
 
         $this->bookingReview = $bookingReview;
+
+        return $this;
+    }
+
+    public function getPayments(): ?Payments
+    {
+        return $this->payments;
+    }
+
+    public function setPayments(Payments $payments): static
+    {
+        if ($payments->getReservation() !== $this) {
+            $payments->setReservation($this);
+        }
+
+        $this->payments = $payments;
 
         return $this;
     }

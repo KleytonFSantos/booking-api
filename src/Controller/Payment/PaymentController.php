@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Charge;
+namespace App\Controller\Payment;
 
 use App\DTO\ChargeDTO;
 use App\Service\StripeService;
@@ -10,9 +10,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class ChargeController extends AbstractController
+class PaymentController extends AbstractController
 {
     public function __construct(
         private readonly StripeService $chargeService,
@@ -20,12 +21,12 @@ class ChargeController extends AbstractController
     ) {
     }
 
-    #[Route('/charge', name: 'app_charge', methods: 'POST')]
-    public function createCharge(Request $request): JsonResponse
+    #[Route('/payment', name: 'app_payment', methods: 'POST')]
+    public function createPayment(Request $request, UserInterface $user): JsonResponse
     {
         try {
             $charge = $this->serializer->deserialize($request->getContent(), ChargeDTO::class, 'json');
-            $this->chargeService->createCharge($charge);
+            $this->chargeService->createPaymentIntent($charge, $user);
 
             return new JsonResponse(null, Response::HTTP_CREATED);
         } catch (ApiErrorException|\Exception $e) {
@@ -35,18 +36,18 @@ class ChargeController extends AbstractController
         }
     }
 
-    #[Route('/charge', name: 'app_get_charges', methods: 'GET')]
-    public function listCharges(): JsonResponse
+    #[Route('/payment', name: 'app_get_payments', methods: 'GET')]
+    public function listPayments(): JsonResponse
     {
         try {
-        $charges = $this->chargeService->getCharges();
+            $charges = $this->chargeService->getPaymentIntents();
 
-        return new JsonResponse([
-            'charges' => $charges
-        ]);
-    } catch (ApiErrorException|\Exception $e) {
-        return new JsonResponse([
-            'error' => $e->getMessage()
+            return new JsonResponse([
+                'charges' => $charges
+            ]);
+        } catch (ApiErrorException|\Exception $e) {
+            return new JsonResponse([
+                'error' => $e->getMessage()
             ], Response::HTTP_BAD_REQUEST);
         }
     }

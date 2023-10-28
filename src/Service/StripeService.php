@@ -3,43 +3,51 @@
 namespace App\Service;
 
 use App\DTO\ChargeDTO;
-use Stripe\BaseStripeClientInterface;
-use Stripe\Charge;
+use App\Repository\UserRepository;
 use Stripe\Collection;
 use Stripe\Exception\ApiErrorException;
 use Stripe\StripeClient;
-use Stripe\StripeClientInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class StripeService
 {
     const BASE_CURRENCY = 'brl';
     const BASE_TOKEN = 'tok_visa';
 
-    public function __construct(private readonly string $stripeApiKey)
-    {
+    public function __construct(
+        private readonly string                  $stripeApiKey,
+        private readonly PaymentServiceInterface $paymentService,
+        private readonly UserRepository          $userRepository
+    ) {
     }
 
     /**
      * @throws ApiErrorException
      */
-    public function getCharges(): Collection
+    public function getPaymentIntents(): Collection
     {
-        return $this->getStripeClient()->charges->all();
+        return $this->getStripeClient()->paymentIntents->all();
     }
 
     /**
      * @throws ApiErrorException
      */
-    public function createCharge(ChargeDTO $chargeDTO): void
+    public function createPaymentIntent(ChargeDTO $chargeDTO, UserInterface $user): void
     {
+        $userReserving = $this->userRepository->findOneBy(['email' => $user->getUserIdentifier()]);
+
         $options = [
             'amount' => $chargeDTO->getAmount(),
             'currency' => self::BASE_CURRENCY,
-            'source' => self::BASE_TOKEN,
-            'description' => $chargeDTO->getDescription()
+            'automatic_payment_methods' => [
+                'enabled' => true,
+            ],
         ];
 
-         $this->getStripeClient()->charges->create($options);
+         $paymentIntent = $this->getStripeClient()->paymentIntents->create($options);
+
+         $payments = $this->paymentService->paymentsBuilder($userReserving, $paymentIntent);
+         $this->paymentService->save($payments);
     }
 
     private function getStripeClient(): StripeClient
