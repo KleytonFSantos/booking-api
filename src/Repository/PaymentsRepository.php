@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Payments;
+use App\Enum\PaymentStatusEnum;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -25,6 +26,12 @@ class PaymentsRepository extends ServiceEntityRepository
     {
         $this->getEntityManager()->persist($payments);
         $this->getEntityManager()->flush();
+    }
+
+    public function cancel(Payments $payments): void
+    {
+        $payments->setStatus(PaymentStatusEnum::CANCELED->value);
+        $this->save($payments);
     }
 
 //    /**

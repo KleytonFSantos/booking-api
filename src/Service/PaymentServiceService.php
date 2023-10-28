@@ -20,7 +20,11 @@ class PaymentServiceService implements PaymentServiceInterface
         $this->paymentsRepository->save($payments);
     }
 
-    public function paymentsBuilder(User $user, PaymentIntent $paymentIntent): Payments
+    public function cancel(Payments $payments): void
+    {
+        $this->paymentsRepository->cancel($payments);
+    }
+    public function builder(User $user, PaymentIntent $paymentIntent): Payments
     {
         $payments = new Payments();
 

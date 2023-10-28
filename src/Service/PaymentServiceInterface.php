@@ -9,5 +9,6 @@ use Stripe\PaymentIntent;
 interface PaymentServiceInterface
 {
     public function save(Payments $payments): void;
-    public function paymentsBuilder(User $user, PaymentIntent $paymentIntent): Payments;
+    public function cancel(Payments $payments): void;
+    public function builder(User $user, PaymentIntent $paymentIntent): Payments;
 }

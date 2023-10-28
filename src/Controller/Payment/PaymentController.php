@@ -3,6 +3,7 @@
 namespace App\Controller\Payment;
 
 use App\DTO\ChargeDTO;
+use App\Entity\Reservation;
 use App\Service\StripeService;
 use Stripe\Exception\ApiErrorException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,7 +17,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 class PaymentController extends AbstractController
 {
     public function __construct(
-        private readonly StripeService $chargeService,
+        private readonly StripeService       $chargeService,
         private readonly SerializerInterface $serializer,
     ) {
     }
@@ -29,6 +30,23 @@ class PaymentController extends AbstractController
             $this->chargeService->createPaymentIntent($charge, $user);
 
             return new JsonResponse(null, Response::HTTP_CREATED);
+        } catch (ApiErrorException|\Exception $e) {
+            return new JsonResponse([
+                'error' => $e->getMessage()
+            ], Response::HTTP_BAD_REQUEST);
+        }
+    }
+
+    #[Route('/cancel-payment/{booking}', name: 'app_cancel_payment', methods: 'PATCH')]
+    public function cancelPayment(Reservation $booking): JsonResponse
+    {
+        try {
+            $payment = $booking->getPayments();
+            $this->chargeService->cancelPaymentIntent($payment);
+
+            return new JsonResponse([
+                'message' => 'Payment canceled successfully.'
+            ], Response::HTTP_OK);
         } catch (ApiErrorException|\Exception $e) {
             return new JsonResponse([
                 'error' => $e->getMessage()

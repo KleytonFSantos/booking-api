@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\DTO\ChargeDTO;
+use App\Entity\Payments;
 use App\Repository\UserRepository;
 use Stripe\Collection;
 use Stripe\Exception\ApiErrorException;
@@ -46,8 +47,20 @@ class StripeService
 
          $paymentIntent = $this->getStripeClient()->paymentIntents->create($options);
 
-         $payments = $this->paymentService->paymentsBuilder($userReserving, $paymentIntent);
+         $payments = $this->paymentService->builder($userReserving, $paymentIntent);
          $this->paymentService->save($payments);
+    }
+
+    /**
+     * @throws ApiErrorException
+     */
+    public function cancelPaymentIntent(Payments $payments): void
+    {
+        $this->getStripeClient()->paymentIntents->cancel(
+          $payments->getTransactionId(),
+          []
+        );
+        $this->paymentService->cancel($payments);
     }
 
     private function getStripeClient(): StripeClient
