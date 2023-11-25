@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\BookingReviewRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: BookingReviewRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -23,9 +24,11 @@ class BookingReview
     private ?Reservation $reservation = null;
 
     #[ORM\Column]
+    #[Groups(['booking_list'])]
     private ?int $rating = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['booking_list'])]
     private ?string $review = null;
 
     #[ORM\Column]
