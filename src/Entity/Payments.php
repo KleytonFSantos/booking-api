@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\PaymentsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: PaymentsRepository::class)]
@@ -22,18 +23,23 @@ class Payments
     private ?Reservation $reservation = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['booking_list'])]
     private ?string $status = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['booking_list'])]
     private ?string $paymentMethod = null;
 
     #[ORM\Column]
+    #[Groups(['booking_list'])]
     private ?string $transactionId = null;
 
     #[ORM\Column]
+    #[Groups(['booking_list'])]
     private ?int $amount = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['booking_list'])]
     private ?string $receiptUrl = null;
 
     #[ORM\Column]
