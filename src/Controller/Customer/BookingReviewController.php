@@ -74,7 +74,7 @@ class BookingReviewController extends AbstractController
         try {
             $this->bookingReviewService->delete($review);
             return new JsonResponse(['message' => 'The review was deleted successfully'], Response::HTTP_NO_CONTENT);
-        } catch (\Exception $exception){
+        } catch (\Exception $exception) {
             return new JsonResponse(['message' => $exception->getMessage()], Response::HTTP_BAD_REQUEST);
         }
     }
