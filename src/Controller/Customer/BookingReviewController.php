@@ -32,8 +32,8 @@ class BookingReviewController extends AbstractController
 
     #[Route('/booking-review/{reservation}', name: 'app_booking_review_create', methods: 'POST')]
     public function create(
-        Request $request,
-        Reservation $reservation,
+        Request       $request,
+        Reservation   $reservation,
         UserInterface $user
     ): JsonResponse {
         try {
@@ -63,6 +63,17 @@ class BookingReviewController extends AbstractController
             $this->bookingReviewService->update($data, $review);
 
             return new JsonResponse(['message' => 'The review was updated successfully'], Response::HTTP_OK);
+        } catch (\Exception $exception) {
+            return new JsonResponse(['message' => $exception->getMessage()], Response::HTTP_BAD_REQUEST);
+        }
+    }
+
+    #[Route('/booking-review/{review}', name: 'app_booking_review_delete', methods: 'DELETE')]
+    public function delete(BookingReview $review): JsonResponse
+    {
+        try {
+            $this->bookingReviewService->delete($review);
+            return new JsonResponse(['message' => 'The review was deleted successfully'], Response::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
             return new JsonResponse(['message' => $exception->getMessage()], Response::HTTP_BAD_REQUEST);
         }
