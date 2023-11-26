@@ -13,15 +13,17 @@ class BookingReviewService
 {
     public function __construct(
         private readonly BookingReviewRepository $bookingReviewRepository,
-        private readonly UserRepository $userRepository
-    ) {
+        private readonly UserRepository          $userRepository
+    )
+    {
     }
 
     public function create(
         BookingReviewRequestDTO $bookingReviewDTO,
-        UserInterface $user,
-        Reservation $reservation
-    ): void {
+        UserInterface           $user,
+        Reservation             $reservation
+    ): void
+    {
         $userReserved = $this->userRepository->findOneBy(['email' => $user->getUserIdentifier()]);
 
         $bookingReview = new BookingReview();
@@ -31,5 +33,21 @@ class BookingReviewService
         $bookingReview->setReview($bookingReviewDTO->getReview());
 
         $this->bookingReviewRepository->save($bookingReview);
+    }
+
+    public function update(
+        BookingReviewRequestDTO $bookingReviewDTO,
+        BookingReview           $review
+    ): void {
+        $review->setRating($bookingReviewDTO->getRating()->value);
+        $review->setReview($bookingReviewDTO->getReview());
+
+        $this->bookingReviewRepository->save($review);
+    }
+
+    public function delete(
+        BookingReview $review
+    ): void {
+        $this->bookingReviewRepository->delete($review);
     }
 }
