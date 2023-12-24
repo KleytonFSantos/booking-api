@@ -10,7 +10,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 class SendEmailToRemindReservationHandler
 {
-    public function __construct(private readonly MessageBusInterface $bus, private readonly MailerInterface $mailer)
+    public function __construct(private readonly MailerInterface $mailer)
     {
     }
 

@@ -14,11 +14,6 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class SendNotificationController extends AbstractController
 {
-    public function __construct(
-        private readonly SerializerInterface $serializer,
-    )
-    {
-    }
 
     #[Route('/send-notification', name: 'app_send_notification', methods: 'GET')]
     public function __invoke(MessageBusInterface $bus, Request $request): Response

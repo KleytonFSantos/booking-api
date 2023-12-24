@@ -12,7 +12,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 #[AsMessageHandler]
 class SendNotificationHandler
 {
-    public function __construct(private readonly MessageBusInterface $bus, private readonly MailerInterface $mailer)
+    public function __construct(private readonly MailerInterface $mailer)
     {
     }
 
