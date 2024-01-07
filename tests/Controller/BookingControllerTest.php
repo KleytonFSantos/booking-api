@@ -69,7 +69,11 @@ class BookingControllerTest extends WebTestCase
         $startDate = $date->add(DateInterval::createFromDateString('+1 day'));
         $endDate = $date->add(DateInterval::createFromDateString('+5 days'));
 
-        return '{"startDate":"' . $startDate->format('Y-m-d') . '", "endDate":"' . $endDate->format('Y-m-d') . '", "room": 2}';
+        return json_encode([
+            'startDate' => $startDate->format('Y-m-d'),
+            'endDate' => $endDate->format('Y-m-d'),
+            'room' => 2
+        ]);
     }
 
 }
