@@ -2,6 +2,7 @@
 
 namespace App\Tests\Controller;
 
+use App\Entity\User;
 use App\Repository\UserRepository;
 use DateInterval;
 use DateTime;
@@ -57,10 +58,16 @@ class BookingControllerTest extends WebTestCase
      */
     protected function loginUser(): void
     {
-        $userRepository = static::getContainer()->get(UserRepository::class);
-        $testUser = $userRepository->findOneByEmail('akatsukipb123@gmail.com');
+        $this->client->loginUser($this->createUser());
+    }
 
-        $this->client->loginUser($testUser);
+    /**
+     * @throws Exception
+     */
+    protected function createUser(): User
+    {
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        return $userRepository->findOneByEmail('akatsukipb123@gmail.com');
     }
 
     protected function generateReservationContent(): string
