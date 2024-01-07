@@ -11,27 +11,8 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
-class BookingControllerTest extends WebTestCase
+class BookingControllerTest extends ApiTestCase
 {
-    private KernelBrowser $client;
-
-    /**
-     * @throws Exception
-     */
-    protected function setUp(): void
-    {
-        $this->client = static::createClient();
-
-        static::getContainer()->get('doctrine')->getConnection()->beginTransaction();
-    }
-
-    /**
-     * @throws Exception
-     */
-    protected function tearDown(): void
-    {
-        static::getContainer()->get('doctrine')->getConnection()->rollBack();
-    }
 
     /**
      * @throws Exception
@@ -67,7 +48,18 @@ class BookingControllerTest extends WebTestCase
     protected function createUser(): User
     {
         $userRepository = static::getContainer()->get(UserRepository::class);
-        return $userRepository->findOneByEmail('akatsukipb123@gmail.com');
+        $userByEmail = $userRepository->findOneBy(['email' => 'akatsukipb123@gmail.com']);
+
+        if (empty($userByEmail)) {
+            $newUser = new User();
+            $newUser->setEmail('akatsukipb123@gmail.com');
+            $newUser->setName('kleyton');
+            $newUser->setPassword('12345');
+            $userRepository->save($newUser);
+            return $newUser;
+        }
+
+        return $userByEmail;
     }
 
     protected function generateReservationContent(): string
