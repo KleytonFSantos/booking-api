@@ -80,7 +80,7 @@ class ApiTestCase extends WebTestCase
     /**
      * @throws Exception
      */
-    protected function hasNoRooms(): bool
+    private function hasNoRooms(): bool
     {
         $roomRepository = $this->getContainer()->get(RoomRepository::class);
 
@@ -132,6 +132,19 @@ class ApiTestCase extends WebTestCase
         $reservationRepository->save($reservation);
 
         return $reservation;
+    }
+
+    public function generateReservationContent(): string
+    {
+        $date = new DateTime();
+        $startDate = $date->add(DateInterval::createFromDateString('+1 day'));
+        $endDate = $date->add(DateInterval::createFromDateString('+5 days'));
+
+        return json_encode([
+            'startDate' => $startDate->format('Y-m-d'),
+            'endDate' => $endDate->format('Y-m-d'),
+            'room' => 2
+        ]);
     }
 
     protected function runLoadFixtures(): void
