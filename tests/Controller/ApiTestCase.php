@@ -27,6 +27,7 @@ class ApiTestCase extends WebTestCase
     protected function setUp(): void
     {
         $this->client = static::createClient();
+        static::getContainer()->get('doctrine')->getConnection()->beginTransaction();
 
         if ($this->hasNoRooms()) {
             $this->runLoadFixtures();
@@ -35,8 +36,6 @@ class ApiTestCase extends WebTestCase
         if ($this->hasNoReservation()) {
             $this->createReservation();
         }
-
-        static::getContainer()->get('doctrine')->getConnection()->beginTransaction();
     }
 
     /**
@@ -83,7 +82,7 @@ class ApiTestCase extends WebTestCase
     {
         $roomRepository = $this->getContainer()->get(RoomRepository::class);
 
-        return empty($roomRepository->findBy(['roomNumber' => range(9, 9)]));
+        return empty($roomRepository->findBy(['roomNumber' => range(1, 9)]));
     }
 
     /**
