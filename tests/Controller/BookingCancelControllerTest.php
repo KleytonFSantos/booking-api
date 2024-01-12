@@ -25,6 +25,9 @@ class BookingCancelControllerTest extends ApiTestCase
         );
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
-        $this->assertSame("Booking {$reservation->getId()} was canceled successfully", json_decode($this->client->getResponse()->getContent())->message);
+        $this->assertJsonStringEqualsJsonString(
+            '{"message": "Booking ' . $reservation->getId() . ' was canceled successfully"}',
+            $this->client->getResponse()->getContent()
+        );
     }
 }

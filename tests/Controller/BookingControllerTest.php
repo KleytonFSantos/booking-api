@@ -25,6 +25,9 @@ class BookingControllerTest extends ApiTestCase
         );
 
         $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
-        $this->assertSame('Booking complete successfully', json_decode($this->client->getResponse()->getContent(), true)['message']);
+        $this->assertJsonStringEqualsJsonString(
+            '{"message": "Booking complete successfully"}',
+            $this->client->getResponse()->getContent()
+        );
     }
 }
