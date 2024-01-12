@@ -2,7 +2,6 @@
 
 namespace App\Tests\Controller;
 
-
 use Exception;
 use Symfony\Component\HttpFoundation\Response;
 
