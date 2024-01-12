@@ -2,20 +2,9 @@
 
 namespace App\Tests\Controller;
 
-use App\Entity\Reservation;
-use App\Entity\Room;
-use App\Entity\User;
-use App\Enum\ReservationStatusEnum;
-use App\Repository\ReservationRepository;
-use App\Repository\RoomRepository;
-use App\Repository\UserRepository;
-use DateInterval;
-use DateTime;
+
 use Exception;
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Process\Process;
 
 class BookingByRoomControllerTest extends ApiTestCase
 {

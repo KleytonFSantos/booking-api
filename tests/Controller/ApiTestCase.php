@@ -12,10 +12,9 @@ use App\Repository\UserRepository;
 use DateInterval;
 use DateTime;
 use Exception;
+use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\BrowserKit\AbstractBrowser;
 use Symfony\Component\Process\Process;
 
 class ApiTestCase extends WebTestCase
@@ -155,7 +154,7 @@ class ApiTestCase extends WebTestCase
         $process->run();
 
         if (!$process->isSuccessful()) {
-            throw new \RuntimeException('Falha ao executar o comando de migração.');
+            throw new RuntimeException('Falha ao executar o comando de migração.');
         }
     }
 }

@@ -2,13 +2,7 @@
 
 namespace App\Tests\Controller;
 
-use App\Entity\User;
-use App\Repository\UserRepository;
-use DateInterval;
-use DateTime;
 use Exception;
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 class BookingControllerTest extends ApiTestCase
