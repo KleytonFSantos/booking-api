@@ -16,6 +16,9 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class CreateBookingTest extends KernelTestCase
 {
+    /**
+     * @throws RoomAlreadyBooked
+     */
     public function testRoomExistsAndIsVacant(): void
     {
         $userRepositoryMock = $this->createMock(UserRepository::class);
@@ -33,13 +36,8 @@ class CreateBookingTest extends KernelTestCase
         $room = new Room();
         $room->setVacancy(true);
 
-        try {
-            $bookingService->checkBookedRoom($room);
-
-            $this->assertTrue(true);
-        } catch (RoomAlreadyBooked $exception) {
-            $this->fail('An unexpected exception was thrown: '.$exception->getMessage());
-        }
+        $bookingService->checkBookedRoom($room);
+        $this->assertTrue(true);
     }
 
     public function testShouldThrowExceptionIfRoomExistsAndNotBeVacancy(): void
@@ -60,7 +58,6 @@ class CreateBookingTest extends KernelTestCase
         $room->setVacancy(false);
 
         $this->expectException(RoomAlreadyBooked::class);
-
         $bookingService->checkBookedRoom($room);
     }
 

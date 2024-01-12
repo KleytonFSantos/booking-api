@@ -45,7 +45,6 @@ class CancelBookingTest extends TestCase
         );
 
         $bookingService->cancel($reservation->getId());
-
         $this->assertSame(ReservationStatusEnum::CANCELED->value, $reservation->getStatus());
         $this->assertTrue($room->isVacancy());
     }
@@ -69,7 +68,6 @@ class CancelBookingTest extends TestCase
         );
 
         $this->expectException(ReservationNotFound::class);
-
         $bookingService->cancel(1);
     }
 }

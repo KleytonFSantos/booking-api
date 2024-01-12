@@ -46,7 +46,6 @@ class FinishedBookingTest extends TestCase
         );
 
         $bookingService->finished($reservation->getId());
-
         $this->assertSame(ReservationStatusEnum::FINISHED->value, $reservation->getStatus());
         $this->assertTrue($room->isVacancy());
     }
