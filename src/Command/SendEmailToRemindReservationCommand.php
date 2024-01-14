@@ -7,6 +7,7 @@ use App\Message\SendEmailToRemindReservationMessage;
 use App\Repository\ReservationRepository;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Style\StyleInterface;
 use Symfony\Component\Stopwatch\Stopwatch;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -41,7 +42,6 @@ class SendEmailToRemindReservationCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $io->createProgressBar();
 
         $reservationsToRemind = $this->repository->findReservationsToRemind();
 
