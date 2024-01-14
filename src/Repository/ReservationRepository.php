@@ -36,6 +36,10 @@ class ReservationRepository extends ServiceEntityRepository
         $manager->flush();
     }
 
+
+    /**
+     * @return Reservation[]
+     */
     public function findReservationsToRemind(): array
     {
         $qb = $this->createQueryBuilder('reservation');

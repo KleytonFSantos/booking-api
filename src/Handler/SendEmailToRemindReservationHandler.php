@@ -2,22 +2,22 @@
 
 namespace App\Handler;
 
+use App\Entity\Reservation;
 use App\Message\SendEmailToRemindReservationMessage;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Messenger\MessageBusInterface;
 
 class SendEmailToRemindReservationHandler
 {
-    public function __construct(private readonly MessageBusInterface $bus, private readonly MailerInterface $mailer)
+    public function __construct(private readonly MailerInterface $mailer)
     {
     }
 
     /**
      * @throws TransportExceptionInterface
      */
-    public function send(SendEmailToRemindReservationMessage $message): void
+    private function send(SendEmailToRemindReservationMessage $message): void
     {
         $email = (new TemplatedEmail())
             ->from('teste@email.com')
@@ -29,5 +29,27 @@ class SendEmailToRemindReservationHandler
             ]);
 
         $this->mailer->send($email);
+    }
+
+    /**
+     * @throws TransportExceptionInterface
+     * @param Reservation[] $reservationsToRemind
+     */
+    public function sendAllEmails(array $reservationsToRemind): array
+    {
+        $messagesArray = [];
+
+        foreach ($reservationsToRemind as $reservation) {
+            $user = $reservation->getUser();
+            $sendEmailMessage = new SendEmailToRemindReservationMessage(
+                email: $user->getEmail(),
+                username: $user->getName()
+            );
+
+            $this->send($sendEmailMessage);
+            $messagesArray[] = "Email was sent to {$user->getEmail()}";
+        }
+
+        return $messagesArray;
     }
 }
