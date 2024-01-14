@@ -27,6 +27,12 @@ class BookingReviewRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush();
     }
 
+    public function delete(BookingReview $review): void
+    {
+        $this->getEntityManager()->remove($review);
+        $this->getEntityManager()->flush();
+    }
+
 //    /**
 //     * @return BookingReview[] Returns an array of BookingReview objects
 //     */

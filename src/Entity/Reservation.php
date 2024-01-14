@@ -50,9 +50,11 @@ class Reservation extends EntityBase
     private ?int $price = null;
 
     #[ORM\OneToOne(mappedBy: 'reservation', cascade: ['persist', 'remove'])]
+    #[Groups(['booking_list'])]
     private ?BookingReview $bookingReview = null;
 
     #[ORM\OneToOne(mappedBy: 'reservation', cascade: ['persist', 'remove'])]
+    #[Groups(['booking_list'])]
     private ?Payments $payments = null;
 
     public function getId(): ?int

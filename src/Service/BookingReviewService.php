@@ -32,4 +32,20 @@ class BookingReviewService
 
         $this->bookingReviewRepository->save($bookingReview);
     }
+
+    public function update(
+        BookingReviewRequestDTO $bookingReviewDTO,
+        BookingReview           $review
+    ): void {
+        $review->setRating($bookingReviewDTO->getRating()->value);
+        $review->setReview($bookingReviewDTO->getReview());
+
+        $this->bookingReviewRepository->save($review);
+    }
+
+    public function delete(
+        BookingReview $review
+    ): void {
+        $this->bookingReviewRepository->delete($review);
+    }
 }
