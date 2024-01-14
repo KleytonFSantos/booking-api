@@ -3,12 +3,9 @@
 namespace App\Command;
 
 use App\Handler\SendEmailToRemindReservationHandler;
-use App\Message\SendEmailToRemindReservationMessage;
 use App\Repository\ReservationRepository;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Style\StyleInterface;
-use Symfony\Component\Stopwatch\Stopwatch;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
