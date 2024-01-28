@@ -4,7 +4,7 @@ namespace App\Message;
 
 class SendNotificationMessage
 {
-    public function __construct(private string $text)
+    public function __construct(private readonly string $text)
     {
     }
 

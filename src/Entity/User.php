@@ -24,7 +24,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(name: 'name', type: 'string', length: 255, nullable: false)]
     #[Assert\NotBlank(message: 'Preencha o campo primeiro nome.')]
     #[Groups(['booking_list'])]
-    public ?string $name;
+    public ?string $name = null;
 
     #[ORM\Column(length: 180, unique: true, nullable: false)]
     #[Assert\NotBlank(message: 'Preencha o campo primeiro email.')]
@@ -196,11 +196,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeBookingReview(BookingReview $bookingReview): static
     {
-        if ($this->bookingReviews->removeElement($bookingReview)) {
-            // set the owning side to null (unless already changed)
-            if ($bookingReview->getUsers() === $this) {
-                $bookingReview->setUsers(null);
-            }
+        if ($this->bookingReviews->removeElement($bookingReview) && $bookingReview->getUsers() === $this) {
+            $bookingReview->setUsers(null);
         }
 
         return $this;
@@ -226,11 +223,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removePayment(Payments $payment): static
     {
-        if ($this->payments->removeElement($payment)) {
-            // set the owning side to null (unless already changed)
-            if ($payment->getUsers() === $this) {
-                $payment->setUsers(null);
-            }
+        if ($this->payments->removeElement($payment) && $payment->getUsers() === $this) {
+             $payment->setUsers(null);
         }
 
         return $this;

@@ -17,7 +17,7 @@ class Room
 
     #[ORM\Column]
     #[Groups(['booking_list'])]
-    private ?int $roomNumber;
+    private ?int $roomNumber = null;
 
     #[ORM\Column]
     #[Groups(['booking_list'])]

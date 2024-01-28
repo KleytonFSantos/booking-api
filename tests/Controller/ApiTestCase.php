@@ -24,6 +24,7 @@ class ApiTestCase extends WebTestCase
     /**
      * @throws Exception
      */
+    #[\Override]
     protected function setUp(): void
     {
         $this->client = static::createClient();
@@ -42,6 +43,7 @@ class ApiTestCase extends WebTestCase
     /**
      * @throws Exception
      */
+    #[\Override]
     protected function tearDown(): void
     {
         static::getContainer()->get('doctrine')->getConnection()->rollBack();
