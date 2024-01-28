@@ -11,7 +11,7 @@ class BookingReviewRequestDTO
     private RatingEnum $rating;
 
     #[Assert\Length(max: 255)]
-    private ?string $review;
+    private ?string $review = null;
 
     public function getRating(): RatingEnum
     {

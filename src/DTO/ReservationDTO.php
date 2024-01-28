@@ -6,7 +6,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class ReservationDTO
 {
-    private ?int $room;
+    private ?int $room = null;
 
     #[Assert\Length(
         min: 8,

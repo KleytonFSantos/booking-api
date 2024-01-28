@@ -13,8 +13,8 @@ use Stripe\StripeClient;
 
 class StripeService
 {
-    const BASE_CURRENCY = 'brl';
-    const BASE_TOKEN = 'tok_visa';
+    final public const BASE_CURRENCY = 'brl';
+    final public const BASE_TOKEN = 'tok_visa';
 
     public function __construct(
         private readonly string                  $stripeApiKey,

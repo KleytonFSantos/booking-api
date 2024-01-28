@@ -14,13 +14,8 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerI
 
 class JwtAuthenticationSuccessHandler implements AuthenticationSuccessHandlerInterface
 {
-    private JWTManager $jwtManager;
-    private UserRepository $userRepository;
-
-    public function __construct(JWTManager $jwtManager, UserRepository $userRepository)
+    public function __construct(private readonly JWTManager $jwtManager, private readonly UserRepository $userRepository)
     {
-        $this->jwtManager = $jwtManager;
-        $this->userRepository = $userRepository;
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token): Response

@@ -18,9 +18,7 @@ class ExceptionHandler implements EventSubscriberInterface
     public function handleException(ExceptionEvent $event): void
     {
         $exception = $event->getThrowable();
-        $statusCode = !$exception->getCode()
-            ? Response::HTTP_INTERNAL_SERVER_ERROR
-            : $exception->getCode();
+        $statusCode = $exception->getCode() ?: Response::HTTP_INTERNAL_SERVER_ERROR;
 
         $response = new JsonResponse(
             [
