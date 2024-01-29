@@ -75,7 +75,7 @@ class CreateBookingTest extends KernelTestCase
         $bookBuilderMock = $this->createMock(BookingBuilder::class);
 
         $reservationDto = new ReservationDTO();
-        $reservationDto->setStartDate(Carbon::now()->hour(-2));
+        $reservationDto->setStartDate(Carbon::now()->hour(-2)->setTimezone('America/Sao_Paulo'));
 
         $bookingService = new BookingService(
             $userRepositoryMock,
