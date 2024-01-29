@@ -32,5 +32,4 @@ class ChargeDTO
     {
         $this->description = $description;
     }
-
 }

@@ -18,7 +18,6 @@ use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 )]
 class SendEmailToRemindReservationCommand extends Command
 {
-
     public function __construct(
         private readonly ReservationRepository $repository,
         private readonly SendEmailToRemindReservationHandler $sendEmailToRemindReservationHandler
@@ -46,6 +45,7 @@ class SendEmailToRemindReservationCommand extends Command
 
         if (empty($reservationsToRemind)) {
             $io->success('No reservations founded to remind');
+
             return Command::SUCCESS;
         }
 

@@ -20,20 +20,21 @@ class BookingReviewController extends AbstractController
     public function __construct(
         private readonly SerializerInterface $serializer,
         private readonly BookingReviewService $bookingReviewService
-    ){
+    ) {
     }
 
     #[Route('/booking-review/{reservation}', name: 'app_booking_review', methods: 'GET')]
     public function showReviewByRevervation(Reservation $reservation): JsonResponse
     {
         $booking = $this->serializer->serialize($reservation->getBookingReview(), 'json', ['groups' => 'booking_list']);
+
         return new JsonResponse($booking, Response::HTTP_OK, [], true);
     }
 
     #[Route('/booking-review/{reservation}', name: 'app_booking_review_create', methods: 'POST')]
     public function create(
-        Request       $request,
-        Reservation   $reservation,
+        Request $request,
+        Reservation $reservation,
         UserInterface $user
     ): JsonResponse {
         try {
@@ -50,8 +51,8 @@ class BookingReviewController extends AbstractController
 
     #[Route('/booking-review/{review}', name: 'app_booking_review_update', methods: 'PATCH')]
     public function update(
-      Request $request,
-      BookingReview $review,
+        Request $request,
+        BookingReview $review,
     ): JsonResponse {
         try {
             $data = $this->serializer->deserialize(
@@ -73,6 +74,7 @@ class BookingReviewController extends AbstractController
     {
         try {
             $this->bookingReviewService->delete($review);
+
             return new JsonResponse(['message' => 'The review was deleted successfully'], Response::HTTP_NO_CONTENT);
         } catch (\Exception $exception) {
             return new JsonResponse(['message' => $exception->getMessage()], Response::HTTP_BAD_REQUEST);

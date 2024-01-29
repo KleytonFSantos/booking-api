@@ -13,13 +13,12 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class PaymentController extends AbstractController
 {
     public function __construct(
-        private readonly StripeService       $chargeService,
+        private readonly StripeService $chargeService,
         private readonly SerializerInterface $serializer,
     ) {
     }
@@ -30,10 +29,11 @@ class PaymentController extends AbstractController
         try {
             $charge = $this->serializer->deserialize($request->getContent(), ChargeDTO::class, 'json');
             $this->chargeService->createPaymentIntent($charge, $reservation);
+
             return new JsonResponse(null, Response::HTTP_CREATED);
         } catch (ApiErrorException|\Exception $e) {
             return new JsonResponse([
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ], Response::HTTP_BAD_REQUEST);
         }
     }
@@ -46,14 +46,15 @@ class PaymentController extends AbstractController
             $this->chargeService->cancelPaymentIntent($payment);
 
             return new JsonResponse([
-                'message' => 'Payment canceled successfully.'
+                'message' => 'Payment canceled successfully.',
             ], Response::HTTP_OK);
         } catch (ApiErrorException|\Exception $e) {
             return new JsonResponse([
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ], Response::HTTP_BAD_REQUEST);
         }
     }
+
     #[Route('/update-payment/{booking}', name: 'app_update_payment', methods: 'PATCH')]
     public function updatePayment(Request $request, Reservation $booking): JsonResponse
     {
@@ -69,18 +70,19 @@ class PaymentController extends AbstractController
             $this->chargeService->updatePaymentIntent($payment);
 
             return new JsonResponse([
-                'message' => 'Payment updated successfully.'
+                'message' => 'Payment updated successfully.',
             ], Response::HTTP_OK);
         } catch (PaymentNotFound $exception) {
             return new JsonResponse([
-                'error' => $exception->getMessage()
+                'error' => $exception->getMessage(),
             ], $exception->getCode());
         } catch (ApiErrorException|\Exception $e) {
             return new JsonResponse([
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ], Response::HTTP_BAD_REQUEST);
         }
     }
+
     #[Route('/payment', name: 'app_get_payments', methods: 'GET')]
     public function listPayments(): JsonResponse
     {
@@ -88,11 +90,11 @@ class PaymentController extends AbstractController
             $charges = $this->chargeService->getPaymentIntents();
 
             return new JsonResponse([
-                'charges' => $charges
+                'charges' => $charges,
             ]);
         } catch (ApiErrorException|\Exception $e) {
             return new JsonResponse([
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ], Response::HTTP_BAD_REQUEST);
         }
     }
@@ -104,11 +106,11 @@ class PaymentController extends AbstractController
             $charges = $this->chargeService->getPaymentIntentByReservationId($reservation);
 
             return new JsonResponse([
-                'charges' => $charges
+                'charges' => $charges,
             ]);
         } catch (ApiErrorException|\Exception $e) {
             return new JsonResponse([
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ], Response::HTTP_BAD_REQUEST);
         }
     }

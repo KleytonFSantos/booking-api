@@ -10,11 +10,11 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route(path: '/form')]
 class TesteController extends AbstractController
 {
-
     #[Route(path: '/teste', name: 'teste-index', methods: 'GET')]
     public function index(Request $request): Response
     {
         $request->getSession()->set('teste', 'testando');
+
         return $this->render('form.html.twig');
     }
 
@@ -24,5 +24,4 @@ class TesteController extends AbstractController
         $data = $request->request->all();
         dd($data, $request->getSession()->get('teste'));
     }
-
 }

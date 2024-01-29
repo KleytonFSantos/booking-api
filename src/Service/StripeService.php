@@ -5,7 +5,6 @@ namespace App\Service;
 use App\DTO\ChargeDTO;
 use App\Entity\Payments;
 use App\Entity\Reservation;
-use App\Repository\UserRepository;
 use Stripe\Collection;
 use Stripe\Exception\ApiErrorException;
 use Stripe\SearchResult;
@@ -17,7 +16,7 @@ class StripeService
     final public const BASE_TOKEN = 'tok_visa';
 
     public function __construct(
-        private readonly string                  $stripeApiKey,
+        private readonly string $stripeApiKey,
         private readonly PaymentServiceInterface $paymentService,
     ) {
     }
@@ -36,7 +35,7 @@ class StripeService
     public function getPaymentIntentByReservationId(Reservation $reservation): SearchResult
     {
         return $this->getStripeClient()->paymentIntents->search([
-            'query' => "metadata['reservation_id']:'". $reservation->getId() ."'"
+            'query' => "metadata['reservation_id']:'".$reservation->getId()."'",
         ]);
     }
 
@@ -53,10 +52,10 @@ class StripeService
             ],
         ];
 
-         $paymentIntent = $this->getStripeClient()->paymentIntents->create($options);
+        $paymentIntent = $this->getStripeClient()->paymentIntents->create($options);
 
-         $payments = $this->paymentService->builder($paymentIntent, $reservation);
-         $this->paymentService->save($payments);
+        $payments = $this->paymentService->builder($paymentIntent, $reservation);
+        $this->paymentService->save($payments);
     }
 
     /**
@@ -66,20 +65,21 @@ class StripeService
     {
         $options = [
             'amount' => $payments->getAmount(),
-            'metadata' => ['reservation_id' => (string) $payments->getReservation()->getId()]
+            'metadata' => ['reservation_id' => (string) $payments->getReservation()->getId()],
         ];
 
         $this->getStripeClient()->paymentIntents->update($payments->getTransactionId(), $options);
         $this->paymentService->save($payments);
     }
+
     /**
      * @throws ApiErrorException
      */
     public function cancelPaymentIntent(Payments $payments): void
     {
         $this->getStripeClient()->paymentIntents->cancel(
-          $payments->getTransactionId(),
-          []
+            $payments->getTransactionId(),
+            []
         );
         $this->paymentService->cancel($payments);
     }

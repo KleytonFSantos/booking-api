@@ -224,7 +224,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removePayment(Payments $payment): static
     {
         if ($this->payments->removeElement($payment) && $payment->getUsers() === $this) {
-             $payment->setUsers(null);
+            $payment->setUsers(null);
         }
 
         return $this;

@@ -2,7 +2,6 @@
 
 namespace App\Controller\Customer;
 
-use App\Entity\Room;
 use App\Exception\ReservationNotFound;
 use App\Repository\ReservationRepository;
 use App\Repository\RoomRepository;
@@ -29,7 +28,7 @@ class BookingByRoomController extends AbstractController
         $booking = $serializer->serialize($bookingByRoom, 'json', ['groups' => 'booking_list']);
 
         if (!$bookingByRoom) {
-            throw new ReservationNotFound('No reservation found for room '. $room);
+            throw new ReservationNotFound('No reservation found for room '.$room);
         }
 
         return new JsonResponse($booking, Response::HTTP_OK, [], true);

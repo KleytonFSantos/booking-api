@@ -25,15 +25,16 @@ class SendEmailToRemindReservationHandler
             ->subject('teste')
             ->htmlTemplate('Emails/send-mail-to-remind-reservations.html.twig')
             ->context([
-                'username' => $message->getUsername()
+                'username' => $message->getUsername(),
             ]);
 
         $this->mailer->send($email);
     }
 
     /**
-     * @throws TransportExceptionInterface
      * @param Reservation[] $reservationsToRemind
+     *
+     * @throws TransportExceptionInterface
      */
     public function sendAllEmails(array $reservationsToRemind): array
     {
