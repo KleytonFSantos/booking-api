@@ -35,7 +35,7 @@ class BookingReviewService
 
     public function update(
         BookingReviewRequestDTO $bookingReviewDTO,
-        BookingReview           $review
+        BookingReview $review
     ): void {
         $review->setRating($bookingReviewDTO->getRating()->value);
         $review->setReview($bookingReviewDTO->getReview());

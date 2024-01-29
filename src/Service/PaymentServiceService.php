@@ -4,18 +4,16 @@ namespace App\Service;
 
 use App\Entity\Payments;
 use App\Entity\Reservation;
-use App\Entity\User;
 use App\Repository\PaymentsRepository;
 use Stripe\PaymentIntent;
 
 class PaymentServiceService implements PaymentServiceInterface
 {
-
     public function __construct(
-      private readonly PaymentsRepository $paymentsRepository
+        private readonly PaymentsRepository $paymentsRepository
     ) {
-
     }
+
     public function save(Payments $payments): void
     {
         $this->paymentsRepository->save($payments);

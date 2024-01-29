@@ -13,7 +13,6 @@ use App\Repository\ReservationRepository;
 use App\Repository\RoomRepository;
 use App\Repository\UserRepository;
 use Carbon\Carbon;
-use Exception;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class BookingService
@@ -28,7 +27,7 @@ class BookingService
 
     /**
      * @throws RoomAlreadyBooked
-     * @throws Exception
+     * @throws \Exception
      */
     public function createBooking(
         UserInterface $user,
@@ -96,7 +95,7 @@ class BookingService
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function isPastDate(string $startDate): void
     {

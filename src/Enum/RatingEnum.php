@@ -9,5 +9,4 @@ enum RatingEnum: int
     case REGULAR = 3;
     case GOOD = 4;
     case VERY_GOOD = 5;
-
 }

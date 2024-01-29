@@ -19,5 +19,4 @@ class SendEmailToRemindReservationMessage
     {
         return $this->username;
     }
-
 }

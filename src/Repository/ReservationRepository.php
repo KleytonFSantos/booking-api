@@ -36,7 +36,6 @@ class ReservationRepository extends ServiceEntityRepository
         $manager->flush();
     }
 
-
     /**
      * @return Reservation[]
      */
