@@ -8,6 +8,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Use PHP 8.2
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+
       - name: Install dependencies
         run: composer install --ignore-platform-req=ext-amqp --optimize-autoloader
 
