@@ -19,7 +19,7 @@ jobs:
       - name: Deploy to EC2
         uses: easingthemes/ssh-deploy@v2
         with:
-          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_KEY_SECRET }}
           ARGS: "-rlgoDzvc -i"
           SOURCE: "./"
           REMOTE_HOST: "ec2-54-205-192-212.compute-1.amazonaws.com"
