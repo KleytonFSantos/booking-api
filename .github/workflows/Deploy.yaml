@@ -27,6 +27,6 @@ jobs:
 #          REMOTE_USER: ${{ secrets.EC2_USERNAME }}
 #          TARGET: "/home/ubuntu/var/www/booking-api"
         run:  |
-          echo "${{secrets.DEPLOY_KEY}}" > deploy_key
-          chmod 600 ./deploy_key
+          echo "${{secrets.DEPLOY_KEY}}" > deploy_key.pem
+          chmod 400 ./deploy_key.pem
           rsync ././ ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_SERVER}}:/home/ubuntu/var/www/booking-api --rsh "ssh -p 22 -i ./symfony-key -o StrictHostKeyChecking=no" --recursive --exclude= -rlgoDzvc -i
