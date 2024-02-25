@@ -1,10 +1,12 @@
 {
     "type": "project",
+    "name": "kleyton/bookingapi",
+    "description": "projeto de teste",
     "license": "proprietary",
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
-        "php": ">=8.1",
+        "php": ">=8.2",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "doctrine/doctrine-bundle": "^2.9",
