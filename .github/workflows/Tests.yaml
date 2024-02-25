@@ -44,5 +44,6 @@ jobs:
       ## —— Tests ———————————————————————————————————————————————————————————
       - name: Run functionnal and unit tests
         run: |
+          cp .env.example .env
           vendor/bin/phpunit tests/UnitTests
           composer test
