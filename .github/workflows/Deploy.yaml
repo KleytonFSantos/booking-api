@@ -19,7 +19,9 @@ jobs:
       - name: Deploy to EC2
         uses: easingthemes/ssh-deploy@v2
         with:
-          server: ${{ secrets.EC2_SERVER }}
-          username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: 'cd /home/ubuntu/var/www/booking-api && git pull && composer install --ignore-platform-req=ext-amqp --optimize-autoloader && php bin/console cache:clear && php bin/console doctrine:migrations:migrate --no-interaction'
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+          ARGS: "-rlgoDzvc -i"
+          SOURCE: "./"
+          REMOTE_HOST: "ec2-54-205-192-212.compute-1.amazonaws.com"
+          REMOTE_USER: "ubuntu"
+          TARGET: "/home/ubuntu/var/www/booking-api"
