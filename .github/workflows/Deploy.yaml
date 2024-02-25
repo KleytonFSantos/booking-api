@@ -18,11 +18,15 @@ jobs:
         run: composer install --ignore-platform-req=ext-amqp --optimize-autoloader
 
       - name: Deploy to EC2
-        uses: easingthemes/ssh-deploy@v2
-        with:
-          SSH_PRIVATE_KEY: ${{ secrets.EC2_KEY_SECRET }}
-          ARGS: "-i"
-          SOURCE: "./"
-          REMOTE_HOST: ${{ secrets.EC2_SERVER }}
-          REMOTE_USER: ${{ secrets.EC2_USERNAME }}
-          TARGET: "/home/ubuntu/var/www/booking-api"
+#        uses: easingthemes/ssh-deploy@v2
+#        with:
+#          SSH_PRIVATE_KEY: ${{ secrets.EC2_KEY_SECRET }}
+#          ARGS: "-i"
+#          SOURCE: "./"
+#          REMOTE_HOST: ${{ secrets.EC2_SERVER }}
+#          REMOTE_USER: ${{ secrets.EC2_USERNAME }}
+#          TARGET: "/home/ubuntu/var/www/booking-api"
+        run:  |
+          echo "${{secrets.DEPLOY_KEY}}" > deploy_key
+          chmod 600 ./deploy_key
+          rsync ././ ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_SERVER}}:/home/ubuntu/var/www/booking-api --rsh "ssh -p 22 -i ./symfony-key -o StrictHostKeyChecking=no" --recursive --exclude= -rlgoDzvc -i
