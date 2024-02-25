@@ -29,4 +29,4 @@ jobs:
         run:  |
           echo "${{secrets.DEPLOY_KEY}}" > deploy_key
           chmod 400 ./deploy_key
-          rsync ././ ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_SERVER}}:/home/${{ secrets.EC2_USERNAME }}/var/www/booking-api --rsh -chav --delete -e -Tv "ssh -p 22 -i ./deploy_key -o StrictHostKeyChecking=no" --recursive --exclude= -rlgoDzvc -i
+          rsync /home/runner/work/booking-api/booking-api/./ ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_SERVER}}:/home/${{ secrets.EC2_USERNAME }}/var/www/booking-api --rsh "ssh -p 22 -i ./deploy_key -o StrictHostKeyChecking=no" --recursive --exclude= -rlgoDzvc -i
