@@ -21,7 +21,7 @@ jobs:
         uses: easingthemes/ssh-deploy@v2
         with:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_KEY_SECRET }}
-          ARGS: "-rlgoDzvc -i"
+          ARGS: "-rlgoDzvc -Tv -i -o StrictHostKeyChecking=no"
           SOURCE: "./"
           REMOTE_HOST: ${{ secrets.EC2_SERVER }}
           REMOTE_USER: ${{ secrets.EC2_USERNAME }}
