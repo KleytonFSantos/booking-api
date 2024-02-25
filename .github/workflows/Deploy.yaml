@@ -49,5 +49,5 @@ kQ0C5GgV1QBO9QcJYfQRgHE7/Ib808UbJ1v5aFDtMKawKqOeC6ff
           ARGS: "-rlgoDzvc -i"
           SOURCE: "./"
           REMOTE_HOST: "ec2-54-205-192-212.compute-1.amazonaws.com"
-          REMOTE_USER: "ubuntu"
+          REMOTE_USER: ${{ secrets.EC2_USERNAME }}
           TARGET: "/home/ubuntu/var/www/booking-api"
