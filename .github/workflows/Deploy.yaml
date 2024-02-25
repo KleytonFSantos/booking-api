@@ -20,35 +20,9 @@ jobs:
       - name: Deploy to EC2
         uses: easingthemes/ssh-deploy@v2
         with:
-          SSH_PRIVATE_KEY: "-----BEGIN RSA PRIVATE KEY-----
-MIIEowIBAAKCAQEAwZpBmjJxsQinfVCVJhPI8UqEgXMwkPEksttQiFeCs9vID4Du
-jPLOynKZEPo1qWRZY9xs2EFCQ/T2O6VljvaSndxVUYvibURI/QFXaOpxy8OACQH1
-gnQjIUOudyX3ssgP4Q+1IPROHX9a1WYhKRe2qdRGz4UXZa5SwM2wkq2bo5fI1AVA
-rvKr4HI1o97kGu29slKCYi+ZeJuqHvqVw4/ZSx2DjaKFnhbNoemsNsMawa6N70la
-l3zpD+dNhWr/YFUdUvepJCIRXsERDCXmuRy3wTlQh3PLnefEi+OM/w8cI5aIHBop
-HXQtvpqDJAQ8XcpUYqh/Qscq42a3r+xGp0T+owIDAQABAoIBAG5SGWnlrtWDqfWF
-0sfU5F9i6Cjf29/sGc51nOlkfI1DAziabtUQk3fXX5PGEIgLL8jw1XFRlpIk559L
-e5jAtwGPiWqjfI5pJ/JMLmQRnHDRYYdAf4cr6MzOxX8Nup081ZeZHMy/ijfS147c
-2K6S3brexM8B9zgw4uUNEL40gYjxOHGcF9wg70WHvL2SpnxhLHJ3QnCiNR5+1gRH
-TiziBOg63+2Exc5MNuabjdctytCVU1vBdX5xWuNu4tnPFMMIgDNHk5AaV38DksrB
-ykJ8QnAKnwDIA4ncJsuBcF8zmfi/Fghx9xCZ3DkAQt7BKwDD63FNAWCCctIRV67m
-/JJg0EECgYEA/MF2RaQd4/NubvjGccjjkmaohy7Kq5YdAymJfY8UYFX879Etlgfx
-DuSlh4NKFYIBup6DnJONUDwpzuyYBB7NgHqBE/99Trf5pnXzjb2HiP6xlRkmYNOx
-cmAXjRHQI+eCAoR2el2IJtd1w0P7yv/aKEhFIleLng/KH3URg/6XXkMCgYEAxBZr
-ymsTqL0/wWUMZSNaRyEcMy3u6Iv24Oc+LCibrcDG8KVpjep9wUwmEUFYqjm3lpRk
-M2MqqEsfINtfekdCO0smHqLWhEaAAJXnnwEzRfEBt3ICxxflKsAVKDkP/byjcXnj
-gYs/qMAbnNiRT7rbtWvCwmWTM+Zmb1vUUD1VSCECgYBXmNDdl+BIFSDL0uormxzL
-q0py91OEHhVV+DpPSpwcOxDbKFqtKXlw2OtJSMYPKCxjOfaQ+E48ZW1z6mlQ3EAK
-a+p6PMx30Kjz+OL815e2cdanvryfSB6ybf0bhfXly6EyMChDhlDebUPB9bi5BOzd
-kxZqrX6UvBInztHQNhbNswKBgDkR1XlqRKR9wAqHYF4nNeUxy8VRfxELe2TlqICt
-qPGfA8eSPPBi6QrTINkwzZ9tgPNAaRFTsVyd0Id9kYJDLxGWw5dzCUAiTKre9jSe
-4s9eX4OGmSxc1gPlN8MnKHJO7rreIMrZPkPc9axmk5RC7CMXI+30Ji2axwFuFpLr
-5uBBAoGBAO8hA8FkGdUlscnW2MXVkwucRo22kTjLp8aNlvo/K5KQFelGQoQ3ZXgD
-nHt4JSkPyqzN2uTUmUkCbIEMU2u1OTT90SOFhbtpYh0zyP6WG/7g3uYAJC/2Pu8W
-kQ0C5GgV1QBO9QcJYfQRgHE7/Ib808UbJ1v5aFDtMKawKqOeC6ff
------END RSA PRIVATE KEY-----"
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_KEY_SECRET }}
           ARGS: "-rlgoDzvc -i"
           SOURCE: "./"
-          REMOTE_HOST: "ec2-54-205-192-212.compute-1.amazonaws.com"
+          REMOTE_HOST: ${{ secrets.EC2_SERVER }}
           REMOTE_USER: ${{ secrets.EC2_USERNAME }}
           TARGET: "/home/ubuntu/var/www/booking-api"
