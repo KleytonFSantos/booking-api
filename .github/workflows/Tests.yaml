@@ -44,7 +44,5 @@ jobs:
       ## —— Tests ———————————————————————————————————————————————————————————
       - name: Run functionnal and unit tests
         run: |
-          vendor/bin/phpunit tests/CancelBookingTest.php
-          vendor/bin/phpunit tests/CancelBookingTest.php
-          vendor/bin/phpunit tests/CancelBookingTest.php
+          vendor/bin/phpunit tests/UnitTests
           composer test
