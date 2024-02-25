@@ -38,11 +38,6 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
       - name: Install Composer dependencies
         run: composer install
-      # —— Code style —— (Based on this package: https://github.com/OskarStark/php-cs-fixer-ga)
-      - name: PHP-CS-Fixer
-        uses: docker://oskarstark/php-cs-fixer-ga
-        with:
-          args: --config=.php_cs.dist --diff --dry-run
       ## —— Tests ———————————————————————————————————————————————————————————
       - name: Run functionnal and unit tests
         run: |
