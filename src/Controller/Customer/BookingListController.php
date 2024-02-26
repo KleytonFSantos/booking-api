@@ -20,7 +20,7 @@ class BookingListController extends AbstractController
             $bookingList = $reservationRepository->findAll();
             $allBooking = $serializer->serialize($bookingList, 'json', ['groups' => 'booking_list']);
 
-            return new JsonResponse($allBooking, Response::HTTP_CREATED, [], true);
+            return new JsonResponse($allBooking, Response::HTTP_OK, [], true);
         } catch (\Exception $e) {
             return new JsonResponse(['message' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR, [], true);
         }
