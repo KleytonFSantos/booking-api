@@ -9,17 +9,25 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Use PHP 8.2
+      - name: Use PHP 8.3
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2'
+          php-version: '8.3'
 
       - name: Install dependencies
         run: composer install --ignore-platform-req=ext-amqp --optimize-autoloader
+
+      - name: Cache build artifacts
+        uses: actions/cache@v2
+        with:
+          path: var/cache var/log
+          key: ${{ runner.os }}-build-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-
 
       - name: Deploy to EC2
         run:  |
           echo "${{secrets.EC2_KEY_SECRET}}" > deploy_key
           chmod 400 ./deploy_key
-          rsync /home/runner/work/booking-api/booking-api/./ ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_SERVER}}:/home/${{ secrets.EC2_USERNAME }}/var/www/booking-api --rsh "ssh -p 22 -i ./deploy_key -o StrictHostKeyChecking=no" --recursive --exclude= -rlgoDzvc -i
+          rsync -avz --delete --exclude=.git --exclude=.github --exclude=var/cache --exclude=var/log ./ ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_SERVER}}:/home/${{ secrets.EC2_USERNAME }}/var/www/booking-api --rsh "ssh -p 22 -i ./deploy_key -o StrictHostKeyChecking=no"
           ssh -tt -i ./deploy_key -o StrictHostKeyChecking=no ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_SERVER }} 'cd /home/${{ secrets.EC2_USERNAME }}/var/www/booking-api && composer install --ignore-platform-req=ext-amqp --optimize-autoloader && sudo chmod -R 777 var/cache var/log'
