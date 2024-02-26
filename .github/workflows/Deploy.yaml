@@ -29,5 +29,5 @@ jobs:
         run:  |
           echo "${{secrets.EC2_KEY_SECRET}}" > deploy_key
           chmod 400 ./deploy_key
-          rsync -avz --delete --exclude=.git --exclude=.github --exclude=var/cache --exclude=var/log ./ ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_SERVER}}:/home/${{ secrets.EC2_USERNAME }}/var/www/booking-api --rsh "ssh -p 22 -i ./deploy_key -o StrictHostKeyChecking=no"
-          ssh -tt -i ./deploy_key -o StrictHostKeyChecking=no ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_SERVER }} 'cd /home/${{ secrets.EC2_USERNAME }}/var/www/booking-api && composer install --ignore-platform-req=ext-amqp --optimize-autoloader && sudo chmod -R 777 var/cache var/log'
+          rsync -avz --delete --exclude=.env --exclude=.git --exclude=.github --exclude=var/cache --exclude=var/log ./ ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_SERVER}}:/home/${{ secrets.EC2_USERNAME }}/var/www/booking-api --rsh "ssh -p 22 -i ./deploy_key -o StrictHostKeyChecking=no"
+          ssh -tt -i ./deploy_key -o StrictHostKeyChecking=no ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_SERVER }} 'cd /home/${{ secrets.EC2_USERNAME }}/var/www/booking-api && composer install --ignore-platform-req=ext-amqp --optimize-autoloader && bin/console lexik:jwt:generate-keypair && sudo chmod -R 777 var/cache var/log'
