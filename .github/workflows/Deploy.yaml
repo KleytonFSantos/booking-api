@@ -18,14 +18,6 @@ jobs:
         run: composer install --ignore-platform-req=ext-amqp --optimize-autoloader
 
       - name: Deploy to EC2
-#        uses: easingthemes/ssh-deploy@v2
-#        with:
-#          SSH_PRIVATE_KEY: ${{ secrets.EC2_KEY_SECRET }}
-#          ARGS: "-i"
-#          SOURCE: "./"
-#          REMOTE_HOST: ${{ secrets.EC2_SERVER }}
-#          REMOTE_USER: ${{ secrets.EC2_USERNAME }}
-#          TARGET: "/home/ubuntu/var/www/booking-api"
         run:  |
           echo "${{secrets.EC2_KEY_SECRET}}" > deploy_key
           chmod 400 ./deploy_key
