@@ -22,4 +22,4 @@ jobs:
           echo "${{secrets.EC2_KEY_SECRET}}" > deploy_key
           chmod 400 ./deploy_key
           rsync /home/runner/work/booking-api/booking-api/./ ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_SERVER}}:/home/${{ secrets.EC2_USERNAME }}/var/www/booking-api --rsh "ssh -p 22 -i ./deploy_key -o StrictHostKeyChecking=no" --recursive --exclude= -rlgoDzvc -i
-          ssh -tt -i ./deploy_key -o StrictHostKeyChecking=no ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_SERVER }} 'cd /home/${{ secrets.EC2_USERNAME }}/var/www/booking-api && composer install --ignore-platform-req=ext-amqp --optimize-autoloader && chmod -R 777 var/cache var/log'
+          ssh -tt -i ./deploy_key -o StrictHostKeyChecking=no ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_SERVER }} 'cd /home/${{ secrets.EC2_USERNAME }}/var/www/booking-api && composer install --ignore-platform-req=ext-amqp --optimize-autoloader && sudo chmod -R 777 var/cache var/log'
