@@ -56,7 +56,7 @@ class RegistrationController extends AbstractController
 		    'error' => 'This email is already registered.',
 		    'type' => 'Unique Email Constraint'
 		],
-                Response::HTTP_INTERNAL_SERVER_ERROR,
+                Response::HTTP_BAD_REQUEST,
                 [],
             );
         }  catch (\Exception $e) {

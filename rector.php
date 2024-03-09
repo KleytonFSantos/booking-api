@@ -22,6 +22,5 @@ return static function (RectorConfig $rectorConfig): void {
         $rectorConfig->sets([
             LevelSetList::UP_TO_PHP_83,
             SymfonySetList::SYMFONY_64,
-            PHPUnitSetList::PHPUNIT_100
         ]);
 };
