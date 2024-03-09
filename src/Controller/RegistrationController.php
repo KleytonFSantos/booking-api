@@ -53,9 +53,9 @@ class RegistrationController extends AbstractController
         } catch (UniqueConstraintViolationException $e) {
             return new JsonResponse(
                 [
-		    'error' => 'This email is already registered.',
-		    'type' => 'Unique Email Constraint'
-		],
+                    'error' => 'This email is already registered.',
+                    'type' => 'Unique Email Constraint'
+                ],
                 Response::HTTP_BAD_REQUEST,
                 [],
             );
