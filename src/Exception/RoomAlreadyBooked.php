@@ -24,7 +24,7 @@ class RoomAlreadyBooked extends \Exception
 
         return sprintf(
             'The room %s is already booked!',
-            $this->room->getId()
+            $this->room->getRoomNumber()
         );
     }
 }

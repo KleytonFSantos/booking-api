@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Service\UserRegistrationService;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -49,7 +50,16 @@ class RegistrationController extends AbstractController
                 Response::HTTP_OK,
                 [],
             );
-        } catch (\Exception $e) {
+        } catch (UniqueConstraintViolationException $e) {
+            return new JsonResponse(
+                [
+		    'error' => 'This email is already registered.',
+		    'type' => 'Unique Email Constraint'
+		],
+                Response::HTTP_INTERNAL_SERVER_ERROR,
+                [],
+            );
+        }  catch (\Exception $e) {
             return new JsonResponse(
                 ['error' => $e->getMessage()],
                 Response::HTTP_INTERNAL_SERVER_ERROR,

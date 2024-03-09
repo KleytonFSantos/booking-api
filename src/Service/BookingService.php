@@ -37,9 +37,10 @@ class BookingService
 
         $room = $this->roomRepository->findOneBy(['roomNumber' => $data?->getRoom()]);
 
-        $this->checkBookedRoom($room);
-
-        $this->isPastDate($data->getStartDate());
+        $this
+            ->checkBookedRoom($room)
+            ->isPastDate($data->getStartDate())
+            ->checkEndDateIncorrect($data->getStartDate(), $data->getEndDate());
 
         $reservation = $this->bookingBuilder->build($data, $room, $userReserving);
 
@@ -87,17 +88,19 @@ class BookingService
     /**
      * @throws RoomAlreadyBooked
      */
-    public function checkBookedRoom(?Room $room): void
+    public function checkBookedRoom(?Room $room): self
     {
         if (empty($room) || !$room->isVacancy()) {
             throw new RoomAlreadyBooked($room);
         }
+
+        return $this;
     }
 
     /**
      * @throws \Exception
      */
-    public function isPastDate(string $startDate): void
+    public function isPastDate(string $startDate): self
     {
         $brasilTimezone = new \DateTimeZone('America/Sao_Paulo');
 
@@ -108,5 +111,23 @@ class BookingService
         if ($startDate < $currentDateTime) {
             throw new DateIsPastException('Choose a future date to start your reservation!');
         }
+
+        return $this;
+    }
+
+    public function checkEndDateIncorrect(string $startDate, string $endDate): self
+    {
+        $brasilTimezone = new \DateTimeZone('America/Sao_Paulo');
+
+        $currentDateTime = Carbon::now($brasilTimezone);
+
+        $startDate = Carbon::parse($startDate, $brasilTimezone);
+        $endDate = Carbon::parse($endDate, $brasilTimezone);
+
+        if ($endDate < $startDate) {
+            throw new DateIsPastException('Choose a future date to finish your reservation!');
+        }
+
+        return $this;
     }
 }

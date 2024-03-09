@@ -21,6 +21,23 @@ class RoomRepository extends ServiceEntityRepository
         parent::__construct($registry, Room::class);
     }
 
+    public function findAllOrderedByRoomNumber(): array
+    {
+        return $this->findBy([], ['roomNumber' => 'ASC']);
+    }
+
+    public function remove(Room $room): void
+    {
+        $this->getEntityManager()->remove($room);
+        $this->getEntityManager()->flush();
+    }
+
+    public function save(Room $room): void
+    {
+        $this->getEntityManager()->persist($room);
+        $this->getEntityManager()->flush();
+    }
+
     //    /**
     //     * @return Room[] Returns an array of Room objects
     //     */
