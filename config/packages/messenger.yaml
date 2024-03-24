@@ -18,8 +18,8 @@ framework:
         #
         routing:
             # Route your messages to the transports
-            App\Message\SendNotificationMessage: async
-            App\Teste\TesteQueue: async_teste
+            App\Infrastructure\Message\SendNotificationMessage: async
+            App\Infrastructure\Teste\TesteQueue: async_teste
 
 
 ## when@test:W

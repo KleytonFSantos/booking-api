@@ -2,15 +2,15 @@
 
 namespace App\Tests\UnitTests;
 
-use App\Entity\Reservation;
-use App\Entity\Room;
-use App\Enum\ReservationStatusEnum;
-use App\Exception\ReservationNotFound;
-use App\Factory\BookingBuilder;
-use App\Repository\ReservationRepository;
-use App\Repository\RoomRepository;
-use App\Repository\UserRepository;
-use App\Service\BookingService;
+use App\Domain\Entity\Reservation;
+use App\Domain\Entity\Room;
+use App\Domain\Enum\ReservationStatusEnum;
+use App\Domain\Exception\ReservationNotFound;
+use App\Domain\Factory\BookingBuilder;
+use App\Domain\Repository\ReservationRepository;
+use App\Domain\Repository\RoomRepository;
+use App\Domain\Repository\UserRepository;
+use App\Infrastructure\Service\BookingService;
 use PHPUnit\Framework\TestCase;
 
 class FinishedBookingTest extends TestCase

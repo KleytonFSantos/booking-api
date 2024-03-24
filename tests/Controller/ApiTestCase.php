@@ -2,13 +2,13 @@
 
 namespace App\Tests\Controller;
 
-use App\Entity\Reservation;
-use App\Entity\Room;
-use App\Entity\User;
-use App\Enum\ReservationStatusEnum;
-use App\Repository\ReservationRepository;
-use App\Repository\RoomRepository;
-use App\Repository\UserRepository;
+use App\Domain\Entity\Reservation;
+use App\Domain\Entity\Room;
+use App\Domain\Entity\User;
+use App\Domain\Enum\ReservationStatusEnum;
+use App\Domain\Repository\ReservationRepository;
+use App\Domain\Repository\RoomRepository;
+use App\Domain\Repository\UserRepository;
 use DateInterval;
 use DateTime;
 use Exception;

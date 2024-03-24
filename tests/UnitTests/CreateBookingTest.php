@@ -2,15 +2,15 @@
 
 namespace App\Tests\UnitTests;
 
-use App\DTO\ReservationDTO;
-use App\Entity\Room;
-use App\Exception\DateIsPastException;
-use App\Exception\RoomAlreadyBooked;
-use App\Factory\BookingBuilder;
-use App\Repository\ReservationRepository;
-use App\Repository\RoomRepository;
-use App\Repository\UserRepository;
-use App\Service\BookingService;
+use App\Domain\DTO\ReservationDTO;
+use App\Domain\Entity\Room;
+use App\Domain\Exception\DateIsPastException;
+use App\Domain\Exception\RoomAlreadyBooked;
+use App\Domain\Factory\BookingBuilder;
+use App\Domain\Repository\ReservationRepository;
+use App\Domain\Repository\RoomRepository;
+use App\Domain\Repository\UserRepository;
+use App\Infrastructure\Service\BookingService;
 use Carbon\Carbon;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
