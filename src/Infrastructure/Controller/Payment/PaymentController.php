@@ -7,7 +7,6 @@ use App\Domain\DTO\UpdatePaymentRequestDTO;
 use App\Domain\Entity\Reservation;
 use App\Domain\Exception\PaymentNotFound;
 use App\Infrastructure\Service\StripeService;
-use Exception;
 use Stripe\Exception\ApiErrorException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -32,7 +31,7 @@ class PaymentController extends AbstractController
             $this->chargeService->createPaymentIntent($charge, $reservation);
 
             return new JsonResponse(null, Response::HTTP_CREATED);
-        } catch (ApiErrorException|Exception $e) {
+        } catch (ApiErrorException|\Exception $e) {
             return new JsonResponse([
                 'error' => $e->getMessage(),
             ], Response::HTTP_BAD_REQUEST);
@@ -49,7 +48,7 @@ class PaymentController extends AbstractController
             return new JsonResponse([
                 'message' => 'Payment canceled successfully.',
             ], Response::HTTP_OK);
-        } catch (ApiErrorException|Exception $e) {
+        } catch (ApiErrorException|\Exception $e) {
             return new JsonResponse([
                 'error' => $e->getMessage(),
             ], Response::HTTP_BAD_REQUEST);
@@ -77,7 +76,7 @@ class PaymentController extends AbstractController
             return new JsonResponse([
                 'error' => $exception->getMessage(),
             ], $exception->getCode());
-        } catch (ApiErrorException|Exception $e) {
+        } catch (ApiErrorException|\Exception $e) {
             return new JsonResponse([
                 'error' => $e->getMessage(),
             ], Response::HTTP_BAD_REQUEST);
@@ -93,7 +92,7 @@ class PaymentController extends AbstractController
             return new JsonResponse([
                 'charges' => $charges,
             ]);
-        } catch (ApiErrorException|Exception $e) {
+        } catch (ApiErrorException|\Exception $e) {
             return new JsonResponse([
                 'error' => $e->getMessage(),
             ], Response::HTTP_BAD_REQUEST);
@@ -109,7 +108,7 @@ class PaymentController extends AbstractController
             return new JsonResponse([
                 'charges' => $charges,
             ]);
-        } catch (ApiErrorException|Exception $e) {
+        } catch (ApiErrorException|\Exception $e) {
             return new JsonResponse([
                 'error' => $e->getMessage(),
             ], Response::HTTP_BAD_REQUEST);

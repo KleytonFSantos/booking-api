@@ -13,7 +13,7 @@ readonly class BookingReviewService
 {
     public function __construct(
         private BookingReviewRepository $bookingReviewRepository,
-        private UserRepository          $userRepository
+        private UserRepository $userRepository
     ) {
     }
 

@@ -3,7 +3,6 @@
 namespace App\Infrastructure\Controller\Booking;
 
 use App\Domain\Repository\ReservationRepository;
-use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,7 +21,7 @@ class BookingListController extends AbstractController
             $allBooking = $serializer->serialize($bookingList, 'json', ['groups' => 'booking_list']);
 
             return new JsonResponse($allBooking, Response::HTTP_OK, [], true);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return new JsonResponse(['message' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR, [], true);
         }
     }

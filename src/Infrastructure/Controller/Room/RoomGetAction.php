@@ -13,13 +13,11 @@ class RoomGetAction extends AbstractController
 {
     #[Route(path: '/rooms', name: 'app_rooms', methods: 'GET')]
     public function __invoke(
-        RoomRepository      $roomRepository,
+        RoomRepository $roomRepository,
         SerializerInterface $serializer,
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $allRooms = $serializer->serialize($roomRepository->findAllOrderedByRoomNumber(), 'json', ['groups' => 'booking_list']);
 
         return new JsonResponse($allRooms, Response::HTTP_OK, [], true);
     }
-
 }

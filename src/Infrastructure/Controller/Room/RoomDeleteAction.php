@@ -11,13 +11,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class RoomDeleteAction extends AbstractController
 {
-
     #[Route(path: '/rooms/{room}', name: 'app_rooms_delete', methods: 'DELETE')]
     public function __invoke(
-        Room           $room,
+        Room $room,
         RoomRepository $roomRepository,
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $roomRepository->remove($room);
 
         return new JsonResponse('', Response::HTTP_NO_CONTENT);

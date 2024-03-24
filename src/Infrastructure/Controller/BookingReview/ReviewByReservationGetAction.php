@@ -11,7 +11,6 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class ReviewByReservationGetAction extends AbstractController
 {
-
     public function __construct(
         private readonly SerializerInterface $serializer,
     ) {

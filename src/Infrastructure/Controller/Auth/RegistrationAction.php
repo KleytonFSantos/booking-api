@@ -54,12 +54,12 @@ class RegistrationAction extends AbstractController
             return new JsonResponse(
                 [
                     'error' => 'This email is already registered.',
-                    'type' => 'Unique Email Constraint'
+                    'type' => 'Unique Email Constraint',
                 ],
                 Response::HTTP_BAD_REQUEST,
                 [],
             );
-        }  catch (\Exception $e) {
+        } catch (\Exception $e) {
             return new JsonResponse(
                 ['error' => $e->getMessage()],
                 Response::HTTP_INTERNAL_SERVER_ERROR,

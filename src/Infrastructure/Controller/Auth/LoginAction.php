@@ -22,9 +22,9 @@ class LoginAction extends AbstractController
         $token = 'token';
 
         return new JsonResponse([
-                'user' => $user->getUserIdentifier(),
-                'token' => $token,
-            ]
+            'user' => $user->getUserIdentifier(),
+            'token' => $token,
+        ]
         );
     }
 }

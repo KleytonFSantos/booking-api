@@ -8,11 +8,9 @@ use App\Domain\Repository\RoomRepository;
 
 readonly class RoomService
 {
-
     public function __construct(
         private RoomRepository $roomRepository
-    )
-    {
+    ) {
     }
 
     public function createRoom(RoomDTO $roomDTO): void

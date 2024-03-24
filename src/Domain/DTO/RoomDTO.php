@@ -33,7 +33,6 @@ class RoomDTO
         $this->roomNumber = $roomNumber;
     }
 
-
     public function getPrice(): ?int
     {
         return $this->price;

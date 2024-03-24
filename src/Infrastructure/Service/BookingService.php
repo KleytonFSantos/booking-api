@@ -18,9 +18,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 readonly class BookingService
 {
     public function __construct(
-        private UserRepository        $userRepository,
-        private RoomRepository        $roomRepository,
-        private BookingBuilder        $bookingBuilder,
+        private UserRepository $userRepository,
+        private RoomRepository $roomRepository,
+        private BookingBuilder $bookingBuilder,
         private ReservationRepository $reservationRepository,
     ) {
     }

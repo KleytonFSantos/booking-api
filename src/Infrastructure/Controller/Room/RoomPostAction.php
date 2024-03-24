@@ -13,16 +13,14 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class RoomPostAction extends AbstractController
 {
-
     public function __construct(
         private readonly RoomService $roomService
-    )
-    {
+    ) {
     }
 
     #[Route(path: '/rooms', name: 'app_rooms_create', methods: 'POST')]
     public function __invoke(
-        Request             $request,
+        Request $request,
         SerializerInterface $serializer,
     ): JsonResponse {
         $data = $serializer->deserialize(

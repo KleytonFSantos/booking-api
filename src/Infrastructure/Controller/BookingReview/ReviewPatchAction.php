@@ -5,7 +5,6 @@ namespace App\Infrastructure\Controller\BookingReview;
 use App\Domain\DTO\BookingReviewRequestDTO;
 use App\Domain\Entity\BookingReview;
 use App\Infrastructure\Service\BookingReviewService;
-use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,7 +35,7 @@ class ReviewPatchAction extends AbstractController
             $this->bookingReviewService->update($data, $review);
 
             return new JsonResponse(['message' => 'The review was updated successfully'], Response::HTTP_OK);
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             return new JsonResponse(['message' => $exception->getMessage()], Response::HTTP_BAD_REQUEST);
         }
     }

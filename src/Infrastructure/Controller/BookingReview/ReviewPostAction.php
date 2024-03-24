@@ -6,7 +6,6 @@ use App\Domain\DTO\BookingReviewRequestDTO;
 use App\Domain\Entity\Reservation;
 use App\Infrastructure\Service\BookingReviewService;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,9 +16,8 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class ReviewPostAction extends AbstractController
 {
-
     public function __construct(
-        private readonly SerializerInterface  $serializer,
+        private readonly SerializerInterface $serializer,
         private readonly BookingReviewService $bookingReviewService
     ) {
     }
@@ -37,7 +35,7 @@ class ReviewPostAction extends AbstractController
             return new JsonResponse(['message' => 'The review was send successfully'], Response::HTTP_CREATED);
         } catch (UniqueConstraintViolationException) {
             return new JsonResponse(['message' => 'The reservation already have a review'], Response::HTTP_UNPROCESSABLE_ENTITY);
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             return new JsonResponse(['message' => $exception->getMessage()], Response::HTTP_BAD_REQUEST);
         }
     }

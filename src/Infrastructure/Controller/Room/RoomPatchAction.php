@@ -14,7 +14,6 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class RoomPatchAction extends AbstractController
 {
-
     public function __construct(
         private readonly RoomService $roomService
     ) {
@@ -22,11 +21,10 @@ class RoomPatchAction extends AbstractController
 
     #[Route(path: '/rooms/{room}', name: 'app_rooms_update', methods: 'PATCH')]
     public function __invoke(
-        Request             $request,
-        Room                $room,
+        Request $request,
+        Room $room,
         SerializerInterface $serializer,
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $data = $serializer->deserialize(
             $request->getContent(),
             RoomUpdateRequestDTO::class,

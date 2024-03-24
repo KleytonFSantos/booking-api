@@ -4,7 +4,6 @@ namespace App\Infrastructure\Controller\BookingReview;
 
 use App\Domain\Entity\BookingReview;
 use App\Infrastructure\Service\BookingReviewService;
-use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,7 +23,7 @@ class ReviewDeleteAction extends AbstractController
             $this->bookingReviewService->delete($review);
 
             return new JsonResponse(['message' => 'The review was deleted successfully'], Response::HTTP_NO_CONTENT);
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             return new JsonResponse(['message' => $exception->getMessage()], Response::HTTP_BAD_REQUEST);
         }
     }
