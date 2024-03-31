@@ -9,10 +9,6 @@ use App\Domain\Enum\ReservationStatusEnum;
 use App\Domain\Repository\ReservationRepository;
 use App\Domain\Repository\RoomRepository;
 use App\Domain\Repository\UserRepository;
-use DateInterval;
-use DateTime;
-use Exception;
-use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Process\Process;
@@ -22,7 +18,7 @@ class ApiTestCase extends WebTestCase
     public KernelBrowser $client;
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     #[\Override]
     protected function setUp(): void
@@ -41,7 +37,7 @@ class ApiTestCase extends WebTestCase
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     #[\Override]
     protected function tearDown(): void
@@ -51,7 +47,7 @@ class ApiTestCase extends WebTestCase
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     protected function loginUser(): void
     {
@@ -59,7 +55,7 @@ class ApiTestCase extends WebTestCase
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     protected function createUser(): User
     {
@@ -72,6 +68,7 @@ class ApiTestCase extends WebTestCase
             $newUser->setName('kleyton');
             $newUser->setPassword('12345');
             $userRepository->save($newUser);
+
             return $newUser;
         }
 
@@ -79,7 +76,7 @@ class ApiTestCase extends WebTestCase
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     private function hasNoRooms(): bool
     {
@@ -89,16 +86,17 @@ class ApiTestCase extends WebTestCase
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     private function getRoom(): Room
     {
         $roomRepository = static::getContainer()->get(RoomRepository::class);
+
         return $roomRepository->findOneBy(['roomNumber' => 1]);
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     protected function hasNoReservation(): bool
     {
@@ -108,7 +106,7 @@ class ApiTestCase extends WebTestCase
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     protected function createReservation(): Reservation
     {
@@ -118,9 +116,9 @@ class ApiTestCase extends WebTestCase
 
         $room = $this->getRoom();
 
-        $date = new DateTime();
-        $startDate = $date->add(DateInterval::createFromDateString('+1 day'));
-        $endDate = $date->add(DateInterval::createFromDateString('+5 days'));
+        $date = new \DateTime();
+        $startDate = $date->add(\DateInterval::createFromDateString('+1 day'));
+        $endDate = $date->add(\DateInterval::createFromDateString('+5 days'));
 
         $reservation = new Reservation();
         $reservation->setUser($user);
@@ -137,14 +135,28 @@ class ApiTestCase extends WebTestCase
 
     public function generateReservationContent(): string
     {
-        $date = new DateTime();
-        $startDate = $date->add(DateInterval::createFromDateString('+1 day'));
-        $endDate = $date->add(DateInterval::createFromDateString('+5 days'));
+        $date1 = new \DateTime();
+        $startDate = $date1->add(\DateInterval::createFromDateString('+2 days'));
+        $date2 = new \DateTime();
+        $endDate = $date2->add(\DateInterval::createFromDateString('+6 days'));
 
         return json_encode([
             'startDate' => $startDate->format('Y-m-d'),
             'endDate' => $endDate->format('Y-m-d'),
-            'room' => 2
+            'room' => 3,
+        ]);
+    }
+
+    public function generateReservationUpdateContent(): string
+    {
+        $date1 = new \DateTime();
+        $startDate = $date1->add(\DateInterval::createFromDateString('+2 days'));
+        $date2 = new \DateTime();
+        $endDate = $date2->add(\DateInterval::createFromDateString('+6 days'));
+
+        return json_encode([
+            'startDate' => $startDate->format('Y-m-d'),
+            'endDate' => $endDate->format('Y-m-d'),
         ]);
     }
 
@@ -156,7 +168,7 @@ class ApiTestCase extends WebTestCase
         $process->run();
 
         if (!$process->isSuccessful()) {
-            throw new RuntimeException('Falha ao executar o comando de migração.');
+            throw new \RuntimeException('Falha ao executar o comando de migração.');
         }
     }
 }

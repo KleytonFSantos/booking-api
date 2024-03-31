@@ -34,7 +34,7 @@ class CreateBookingTest extends KernelTestCase
         $room->setVacancy(true);
 
         try {
-            $bookingService->checkBookedRoom($room);
+            $bookingService->checkRoomAvailability($room);
 
             $this->assertTrue(true);
         } catch (RoomAlreadyBooked $exception) {
@@ -61,7 +61,7 @@ class CreateBookingTest extends KernelTestCase
 
         $this->expectException(RoomAlreadyBooked::class);
 
-        $bookingService->checkBookedRoom($room);
+        $bookingService->checkRoomAvailability($room);
     }
 
     /**

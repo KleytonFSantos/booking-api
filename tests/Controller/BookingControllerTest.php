@@ -2,14 +2,12 @@
 
 namespace App\Tests\Controller;
 
-use Exception;
 use Symfony\Component\HttpFoundation\Response;
 
 class BookingControllerTest extends ApiTestCase
 {
-
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function testCreateBooking()
     {

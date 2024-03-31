@@ -30,7 +30,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank(message: 'Preencha o campo primeiro email.')]
     #[Assert\Email]
     #[Groups(['booking_list'])]
-    public string $email;
+    public ?string $email = null;
 
     #[ORM\Column]
     public array $roles = [];

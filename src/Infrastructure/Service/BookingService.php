@@ -3,6 +3,8 @@
 namespace App\Infrastructure\Service;
 
 use App\Domain\DTO\ReservationDTO;
+use App\Domain\DTO\ReservationUpdateDTO;
+use App\Domain\Entity\Reservation;
 use App\Domain\Entity\Room;
 use App\Domain\Enum\ReservationStatusEnum;
 use App\Domain\Exception\DateIsPastException;
@@ -38,13 +40,33 @@ readonly class BookingService
         $room = $this->roomRepository->findOneBy(['roomNumber' => $data?->getRoom()]);
 
         $this
-            ->checkBookedRoom($room)
+            ->checkRoomAvailability($room)
             ->isPastDate($data->getStartDate())
             ->checkEndDateIncorrect($data->getStartDate(), $data->getEndDate());
 
-        $reservation = $this->bookingBuilder->build($data, $room, $userReserving);
+        $reservation = $this->bookingBuilder->createReservation($data, $room, $userReserving);
 
         $this->reservationRepository->save($reservation);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function updateBooking(
+        ?ReservationUpdateDTO $data,
+        int $reservationId,
+    ): Reservation {
+        $reservation = $this->reservationRepository->find($reservationId);
+
+        $this
+            ->isPastDate($data->getStartDate())
+            ->checkEndDateIncorrect($data->getStartDate(), $data->getEndDate());
+
+        $reservation = $this->bookingBuilder->updateReservation($data, $reservation);
+
+        $this->reservationRepository->save($reservation);
+
+        return $reservation;
     }
 
     /**
@@ -88,7 +110,7 @@ readonly class BookingService
     /**
      * @throws RoomAlreadyBooked
      */
-    public function checkBookedRoom(?Room $room): self
+    public function checkRoomAvailability(?Room $room): self
     {
         if (empty($room) || !$room->isVacancy()) {
             throw new RoomAlreadyBooked($room);

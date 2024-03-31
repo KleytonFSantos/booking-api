@@ -19,12 +19,12 @@ class Reservation extends EntityBase
     #[Groups(['booking_list'])]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'reservations')]
+    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'reservations')]
     #[ORM\JoinColumn(name: 'user_id', nullable: false)]
     #[Groups(['booking_list'])]
     private ?User $user = null;
 
-    #[ORM\ManyToOne(inversedBy: 'reservation')]
+    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'reservation')]
     #[ORM\JoinColumn(name: 'room_id', nullable: false)]
     #[Groups(['booking_list'])]
     private ?Room $room = null;
