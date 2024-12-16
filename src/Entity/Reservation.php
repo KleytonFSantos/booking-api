@@ -24,7 +24,7 @@ class Reservation extends EntityBase
     #[Groups(['booking_list'])]
     private ?User $user = null;
 
-    #[ORM\ManyToOne(inversedBy: 'reservation')]
+    #[ORM\ManyToOne(targetEntity: Room::class, inversedBy: 'reservation')]
     #[ORM\JoinColumn(name: 'room_id', nullable: false)]
     #[Groups(['booking_list'])]
     private ?Room $room = null;

@@ -3,24 +3,17 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
-use Rector\PHPUnit\Set\PHPUnitSetList;
-use Rector\Set\ValueObject\LevelSetList;
-use Rector\Set\ValueObject\SetList;
-use Rector\Symfony\Set\SymfonySetList;
 
-return static function (RectorConfig $rectorConfig): void {
-    $rectorConfig->paths([
-        __DIR__ . '/config',
-        __DIR__ . '/public',
-        __DIR__ . '/src',
-        __DIR__ . '/tests',
+return RectorConfig::configure()
+    ->withPaths([
+        __DIR__.'/config',
+        __DIR__.'/public',
+        __DIR__.'/src',
+        __DIR__.'/tests',
+    ])
+    // uncomment to reach your current PHP version
+    // ->withPhpSets()
+    ->withPhpVersion(Rector\ValueObject\PhpVersion::PHP_84)
+    ->withRules([
+        Rector\Php84\Rector\Param\ExplicitNullableParamTypeRector::class,
     ]);
-
-    // register a single rule
-
-    // define sets of rules
-        $rectorConfig->sets([
-            LevelSetList::UP_TO_PHP_83,
-            SymfonySetList::SYMFONY_64,
-        ]);
-};

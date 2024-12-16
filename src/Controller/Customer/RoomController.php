@@ -19,9 +19,13 @@ class RoomController extends AbstractController
         RoomRepository $roomRepository,
         SerializerInterface $serializer,
     ): JsonResponse {
-        $allRooms = $serializer->serialize($roomRepository->findAllOrderedByRoomNumber(), 'json', ['groups' => 'booking_list']);
+        try {
+            $allRooms = $serializer->serialize($roomRepository->findAllOrderedByRoomNumber(), 'json', ['groups' => 'booking_list']);
 
-        return new JsonResponse($allRooms, Response::HTTP_OK, [], true);
+            return new JsonResponse($allRooms, Response::HTTP_OK, [], true);
+        } catch (Exception $e) {
+            dd($e);
+        }
     }
 
     #[Route(path: '/rooms/{room}', name: 'app_rooms_delete', methods: 'DELETE')]

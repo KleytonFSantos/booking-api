@@ -10,7 +10,7 @@ framework:
 #            failed: 'doctrine://default?queue_name=failed'
 #            sync: 'sync://'
             async_teste:
-                dsn: '%env(MESSENGER_TRANSPORT_DSN1)%'
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
                 options:
                     exchange:
                         name: 'teste'

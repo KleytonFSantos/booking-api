@@ -11,15 +11,15 @@ security:
                 property: email
     firewalls:
         login:
-            pattern: ^/login
+            pattern: ^/api/login
             stateless: true
             json_login:
-                check_path: /login_check
+                check_path: /api/login_check
                 success_handler: app.jwt_authentication_success_handler
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
 
         api:
-            pattern:   ^/
+            pattern:   ^/api
             stateless: true
             jwt: ~
                 
@@ -33,12 +33,12 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/login, roles: PUBLIC_ACCESS }
-        - { path: ^/booking-list, roles: PUBLIC_ACCESS }
-        - { path: ^/register, roles: PUBLIC_ACCESS }
-        - { path: ^/send-notification, roles: PUBLIC_ACCESS }
-        - { path: ^/rooms/*, roles: PUBLIC_ACCESS }
-        - { path: ^/,       roles: IS_AUTHENTICATED_FULLY }        
+        - { path: ^/api/login, roles: PUBLIC_ACCESS }
+        - { path: ^/api/register, roles: PUBLIC_ACCESS }
+        - { path: ^/api/booking-list, roles: PUBLIC_ACCESS }
+        - { path: ^/api/send-notification, roles: PUBLIC_ACCESS }
+        - { path: ^/api/rooms/*, roles: PUBLIC_ACCESS }
+        - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
 
 when@test:
     security:

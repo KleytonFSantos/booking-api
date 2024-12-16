@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\RoomRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -27,8 +28,8 @@ class Room
     #[Groups(['booking_list'])]
     private ?bool $vacancy = null;
 
-    #[ORM\OneToOne(mappedBy: 'room', cascade: ['persist', 'remove'])]
-    private ?Reservation $reservation = null;
+    #[ORM\OneToMany(mappedBy: 'room', targetEntity: Reservation::class, cascade: ['persist', 'remove'])]
+    private ?Collection $reservation = null;
 
     public function getId(): ?int
     {
